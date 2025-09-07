@@ -4,3 +4,7 @@
 /*.sim
 /*.xpr
 /*.srcs
+/RV32*/
+/mem/*
+*.log
+*.jou

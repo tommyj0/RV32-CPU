@@ -39,7 +39,7 @@ assign read_data2 = (read_reg2 == 'h0) ? 'h0 : regs[read_reg2];
 always@(posedge clk)
 begin
     if (write_reg_enable)
-        regs[write_reg] <= write_reg_enable;
+        regs[write_reg] <= write_data;
 end
 
 endmodule

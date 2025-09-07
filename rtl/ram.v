@@ -42,8 +42,10 @@ assign addr_4b = addr[RAMWordWidth - 1:2];
 initial $readmemh(INIT_FILE, mem);
 
 always@(posedge clk)
+begin
     if (we)
         mem[addr_4b] <= w_data;
     else
         r_data <= mem[addr_4b];
+end
 endmodule

@@ -18,6 +18,7 @@
 // Additional Comments:
 // 
 //////////////////////////////////////////////////////////////////////////////////
+
 `include "alu_ops.vh"
 
 module alu(
@@ -33,6 +34,7 @@ assign zero = (alu_result == 'h0);
 
 always@(*)
 begin
+overflow = 1'b0;
     case(alu_op)
         `ADD: {overflow,alu_result} = in1 + in2;
         `SUB: {overflow,alu_result} = in1 - in2;
