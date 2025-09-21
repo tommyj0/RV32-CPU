@@ -1,6 +1,7 @@
 `timescale 1ns / 1ps
 
 module instr_fetch_tb();
+
 reg clk = 0;
 reg rst = 1;
 
@@ -13,15 +14,16 @@ initial
   forever #5 clk = ~clk;
 
 initial
-    #100 rst = 0;
+    #100 rst = 1'b0;
+
 always@(posedge clk)
 begin
     if ($random % 5 == 0) begin
-        branch_mem_if <= 1;
+        branch_mem_if <= 'b1;
         PC_branch_mem_if <= PC_branch_mem_if + ($random % 100);
     end
     else begin
-        branch_mem_if <= 0;
+        branch_mem_if <= 'b0;
     end
         
 end

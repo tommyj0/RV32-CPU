@@ -26,12 +26,12 @@ begin
 end
 
 rom #(
-    .ROMAddrWidth(16),
+    .ROMAddrWidth(10),
     .ROMWordWidth(32),
     .INIT_FILE("rom.mem")
 ) rom_inst (
     .clk(clk),
-    .addr(PC_reg),
+    .addr(Next_PC[9:0]),
     .r_data(instr_if_id)
 );
 
