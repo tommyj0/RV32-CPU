@@ -45,9 +45,9 @@ initial begin
   run_op_tests(`SRA);
 
 
-  run_op_tests(`MUL);
-  run_op_tests(`DIV);
-  run_op_tests(`REM);
+  // run_op_tests(`MUL);
+  // run_op_tests(`DIV);
+  // run_op_tests(`REM);
   $finish;
 end
 

@@ -3,57 +3,45 @@
    <wave_state>
    </wave_state>
    <db_ref_list>
-      <db_ref path="alu_tb_behav.wdb" id="1">
+      <db_ref path="instr_fetch_tb_behav.wdb" id="1">
          <top_modules>
-            <top_module name="alu_tb" />
             <top_module name="glbl" />
+            <top_module name="instr_fetch_tb" />
          </top_modules>
       </db_ref>
    </db_ref_list>
    <zoom_setting>
       <ZoomStartTime time="0.000 ns"></ZoomStartTime>
-      <ZoomEndTime time="1,000.001 ns"></ZoomEndTime>
-      <Cursor1Time time="88.435 ns"></Cursor1Time>
+      <ZoomEndTime time="1,120.520 ns"></ZoomEndTime>
+      <Cursor1Time time="93.822 ns"></Cursor1Time>
    </zoom_setting>
    <column_width_setting>
       <NameColumnWidth column_width="104"></NameColumnWidth>
-      <ValueColumnWidth column_width="102"></ValueColumnWidth>
+      <ValueColumnWidth column_width="98"></ValueColumnWidth>
    </column_width_setting>
-   <WVObjectSize size="9" />
-   <wvobject fp_name="/alu_tb/in1" type="array">
-      <obj_property name="ElementShortName">in1[31:0]</obj_property>
-      <obj_property name="ObjectShortName">in1[31:0]</obj_property>
+   <WVObjectSize size="6" />
+   <wvobject fp_name="/instr_fetch_tb/clk" type="logic">
+      <obj_property name="ElementShortName">clk</obj_property>
+      <obj_property name="ObjectShortName">clk</obj_property>
    </wvobject>
-   <wvobject fp_name="/alu_tb/in2" type="array">
-      <obj_property name="ElementShortName">in2[31:0]</obj_property>
-      <obj_property name="ObjectShortName">in2[31:0]</obj_property>
+   <wvobject fp_name="/instr_fetch_tb/rst" type="logic">
+      <obj_property name="ElementShortName">rst</obj_property>
+      <obj_property name="ObjectShortName">rst</obj_property>
    </wvobject>
-   <wvobject fp_name="/alu_tb/in_select" type="array">
-      <obj_property name="ElementShortName">in_select[3:0]</obj_property>
-      <obj_property name="ObjectShortName">in_select[3:0]</obj_property>
+   <wvobject fp_name="/instr_fetch_tb/branch_mem_if" type="logic">
+      <obj_property name="ElementShortName">branch_mem_if</obj_property>
+      <obj_property name="ObjectShortName">branch_mem_if</obj_property>
    </wvobject>
-   <wvobject fp_name="/alu_tb/expected_result" type="array">
-      <obj_property name="ElementShortName">expected_result[31:0]</obj_property>
-      <obj_property name="ObjectShortName">expected_result[31:0]</obj_property>
+   <wvobject fp_name="/instr_fetch_tb/PC_branch_mem_if" type="array">
+      <obj_property name="ElementShortName">PC_branch_mem_if[31:0]</obj_property>
+      <obj_property name="ObjectShortName">PC_branch_mem_if[31:0]</obj_property>
    </wvobject>
-   <wvobject fp_name="/alu_tb/zero" type="logic">
-      <obj_property name="ElementShortName">zero</obj_property>
-      <obj_property name="ObjectShortName">zero</obj_property>
+   <wvobject fp_name="/instr_fetch_tb/instr_if_id" type="array">
+      <obj_property name="ElementShortName">instr_if_id[31:0]</obj_property>
+      <obj_property name="ObjectShortName">instr_if_id[31:0]</obj_property>
    </wvobject>
-   <wvobject fp_name="/alu_tb/alu_result" type="array">
-      <obj_property name="ElementShortName">alu_result[31:0]</obj_property>
-      <obj_property name="ObjectShortName">alu_result[31:0]</obj_property>
-   </wvobject>
-   <wvobject fp_name="/alu_tb/overflow" type="logic">
-      <obj_property name="ElementShortName">overflow</obj_property>
-      <obj_property name="ObjectShortName">overflow</obj_property>
-   </wvobject>
-   <wvobject fp_name="/alu_tb/i" type="array">
-      <obj_property name="ElementShortName">i[31:0]</obj_property>
-      <obj_property name="ObjectShortName">i[31:0]</obj_property>
-   </wvobject>
-   <wvobject fp_name="/alu_tb/MAX32B" type="array">
-      <obj_property name="ElementShortName">MAX32B[31:0]</obj_property>
-      <obj_property name="ObjectShortName">MAX32B[31:0]</obj_property>
+   <wvobject fp_name="/instr_fetch_tb/PC_if_id" type="array">
+      <obj_property name="ElementShortName">PC_if_id[31:0]</obj_property>
+      <obj_property name="ObjectShortName">PC_if_id[31:0]</obj_property>
    </wvobject>
 </wave_config>

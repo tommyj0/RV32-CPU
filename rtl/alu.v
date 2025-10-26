@@ -25,9 +25,11 @@ overflow = 1'b0;
         `SLL: {overflow,alu_result} = in1 << in2;
         `SRL: {overflow,alu_result} = in1 >> in2;
         `SRA: {overflow,alu_result} = in1 >>> in2;
-        `MUL: {overflow,alu_result} = in1 * in2;
-        `DIV: {overflow,alu_result} = in1 / in2;
-        `REM: {overflow,alu_result} = in1 % in2;
+        `SLT: alu_result = in1 < in2 ? 'b1 : 'b0;
+        `SLTU: alu_result = in1 < in2 ? 'b1 : 'b0;
+        // `MUL: {overflow,alu_result} = in1 * in2;
+        // `DIV: {overflow,alu_result} = in1 / in2;
+        // `REM: {overflow,alu_result} = in1 % in2;
         default: alu_result = in1;
     endcase
 end

@@ -11,3 +11,8 @@
 `define JALR    7'b1100111
 `define JAL     7'b1101111
 `define CSR     7'b1110011
+
+// GROUPINGS
+
+`define MATHZ   7'b0?10011
+`define JALZ    7'b110?111

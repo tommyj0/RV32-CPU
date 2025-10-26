@@ -2,7 +2,12 @@
 //////////////////////////////////////////////////////////////////////////////////
 // MODULE: instr_fetch
 
-module instr_fetch(
+module instr_fetch # (
+    parameter AddrWidth = 10,
+    parameter DataWidth = 32
+)
+
+(
     input               clk,
     input               rst,
     input               branch_mem_if,
@@ -26,13 +31,13 @@ begin
 end
 
 rom #(
-    .ROMAddrWidth(10),
-    .ROMWordWidth(32),
+    .ROMAddrWidth(AddrWidth),
+    .ROMWordWidth(DataWidth),
     .INIT_FILE("rom.mem")
 ) rom_inst (
     .clk(clk),
-    .addr(Next_PC[9:0]),
-    .r_data(instr_if_id)
+    .addr(PC_reg[AddrWidth - 1:0]),
+    .r_data(instr_if_id) // output is clocked so OK to input comb reg
 );
 
 

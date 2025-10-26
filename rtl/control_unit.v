@@ -87,6 +87,16 @@ begin
         begin
             reg_write = 'b1;
         end
+        default:
+        begin
+            branch = 'b0;
+            mem_read = 'b0;
+            mem_to_reg = 'b0;
+            alu_op = 'b0;
+            mem_write = 'b0;
+            alu_src = 'b0;
+            reg_write = 'b0;
+        end
     endcase
 end
 endmodule
