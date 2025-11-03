@@ -1,18 +1,15 @@
 `timescale 1ns / 1ps
 //////////////////////////////////////////////////////////////////////////////////
 // MODULE: instr_fetch
+//////////////////////////////////////////////////////////////////////////////////
 
-module instr_fetch # (
-    parameter AddrWidth = 10,
-    parameter DataWidth = 32
-)
-
+module instr_fetch
 (
     input               clk,
     input               rst,
     input               branch_mem_if,
     input       [31:0]  PC_branch_mem_if,
-    output      [31:0]  instr_if_id,
+    // output      [31:0]  instr_if_id,
     output      [31:0]  PC_if_id
 );
 
@@ -29,16 +26,5 @@ begin
     else
         PC_reg <= Next_PC;
 end
-
-rom #(
-    .ROMAddrWidth(AddrWidth),
-    .ROMWordWidth(DataWidth),
-    .INIT_FILE("rom.mem")
-) rom_inst (
-    .clk(clk),
-    .addr(PC_reg[AddrWidth - 1:0]),
-    .r_data(instr_if_id) // output is clocked so OK to input comb reg
-);
-
 
 endmodule

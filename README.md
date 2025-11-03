@@ -2,7 +2,7 @@
 
 ## Description
 
-Simple (in development) RV32 core targetted for the Xilinx Basys3 FPGA
+Simple RV32 core targetted for the Xilinx Basys3 FPGA. The aim is to have a lightweight core that complies with RV32G. Following that it should be able to use custom peripherals such as a mouse driver and VGA driver.
 
 ## Requirements
 
@@ -28,4 +28,8 @@ Simple (in development) RV32 core targetted for the Xilinx Basys3 FPGA
 
 ## Notes
 
-Pipeline registers are typically at the end of stages. Might tweak this to put them in top, would be more elegant, but requires more code.
+Pipeline registers are typically at the end of stages. Might tweak this to put them in cpu, would be more elegant having the stage modules as combinational only. 
+
+VGA Timings are taken from this website: [VGA Signal Timings](http://www.tinyvga.com/vga-timing)
+
+

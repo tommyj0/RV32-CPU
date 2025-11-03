@@ -11,6 +11,12 @@
 module cpu(
     input               clk,
     input               rst,
+    input  [31:0]       rom_rdata,
+    input  [31:0]       ram_rdata,
+    output              ram_we,
+    output [31:0]       ram_wdata,
+    output [31:0]       rom_addr,
+    output [31:0]       ram_addr,
     output [15:0]       led
 );
 
@@ -27,9 +33,11 @@ instr_fetch u_instr_fetch(
     .rst(rst),
     .branch_mem_if(ctrl_branch_mem_if),
     .PC_branch_mem_if(PC_branch_mem_if),
-    .instr_if_id(instr_if_id),
+    // .instr_if_id(instr_if_id),
     .PC_if_id(PC_if_id)
 );
+assign instr_if_id = rom_rdata;
+assign rom_addr = PC_if_id;
 
 // Decode wires
 wire [31:0] rs1_id_exe;
@@ -38,7 +46,7 @@ wire [31:0] PC_id_exe;
 wire [31:0] imm_id_exe;
 wire [4:0]  write_reg_wb_id;
 wire [31:0] write_data_wb_id;
-wire [0:0]    ctrl_write_reg_wb_id; // finish at id
+wire [0:0]  ctrl_write_reg_wb_id; // finish at id
 
 wire [4:0]  write_reg_id_exe;
 
@@ -97,6 +105,7 @@ wire [0:0]    ctrl_write_reg_exe_mem; // finish at id
 
 // Execute instanciation
 execute u_execute(
+    // inputs
     .clk(clk),
     .rst(rst),
     .PC_id_exe(PC_id_exe),
@@ -141,20 +150,28 @@ mem_access u_mem_access(
     .clk(clk),
     .ctrl_branch_exe_mem(ctrl_branch_exe_mem),
     .ctrl_mem_read_exe_mem(ctrl_mem_read_exe_mem),
-    .ctrl_mem_write_exe_mem(ctrl_mem_write_exe_mem),
+    // .ctrl_mem_write_exe_mem(ctrl_mem_write_exe_mem),
     .ctrl_mem_to_reg_exe_mem(ctrl_mem_to_reg_exe_mem),
     .ctrl_write_reg_exe_mem(ctrl_write_reg_exe_mem),
     .alu_out_exe_mem(alu_result_exe_mem),
-    .w_data_exe_mem(rs2_exe_mem),
+    // .w_data_exe_mem(rs2_exe_mem),
     .write_reg_exe_mem(write_reg_exe_mem),
     // output
-    .r_data_mem_wb(r_data_mem_wb),
+    // .r_data_mem_wb(r_data_mem_wb),
     .reg_out_mem_wb(reg_out_mem_wb),
     .write_reg_mem_wb(write_reg_mem_wb),
     .ctrl_branch_mem_wb(ctrl_branch_mem_if),
     .ctrl_mem_to_reg_mem_wb(ctrl_mem_to_reg_mem_wb),
     .ctrl_write_reg_mem_wb(ctrl_write_reg_mem_wb)
 );
+
+assign r_data_mem_wb = ram_rdata;
+
+assign ram_addr = alu_result_exe_mem;
+
+assign ram_we = ctrl_mem_write_exe_mem;
+
+assign ram_wdata = rs2_exe_mem;
 
 
 // write back instanciation
@@ -176,5 +193,9 @@ write_back u_write_back(
 
 
 assign led = r_data_mem_wb[15:0];
+
+
+
+
 
 endmodule
