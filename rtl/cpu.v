@@ -22,6 +22,7 @@ module cpu(
 
 // Instruction Fetch wires
 wire [31:0] PC_branch_mem_if;
+assign PC_branch_mem_if = 0; // TODO fix
 wire        ctrl_branch_mem_if;
 
 wire [31:0] PC_if_id;

@@ -4,7 +4,7 @@
 //////////////////////////////////////////////////////////////////////////////////
 
 // system specific top
-module top#
+module top #
 (
   parameter DISPLAY_WIDTH=800,
   parameter DISPLAY_HEIGHT=600

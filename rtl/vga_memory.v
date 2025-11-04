@@ -42,16 +42,30 @@ module vga_memory #
     output reg [11:0] colour_out
     );
 
-wire [$clog2(DISPLAY_WIDTH):0] x_write;
-wire [$clog2(DISPLAY_HEIGHT):0] y_write;
+wire [$clog2(DISPLAY_WIDTH)-1:0] x_write;
+wire [$clog2(DISPLAY_HEIGHT)-1:0] y_write;
 wire [11:0] colour_in;
+
+localparam integer DEPTH = DISPLAY_WIDTH*DISPLAY_HEIGHT;
+
+wire [$clog2(DEPTH) - 1:0] write_addr;
+wire [$clog2(DEPTH) - 1:0] read_addr;
+
+assign write_addr = y_write * DISPLAY_WIDTH + x_write;
+assign read_addr = y* DISPLAY_WIDTH + x;
+wire [11:0] palette[0:3];
+assign palette[0] = 12'hFFF;
+assign palette[1] = 12'hFF0;
+assign palette[2] = 12'hF0F;
+assign palette[3] = 12'h0FF;
+
+
+reg [1:0] frame_buffer [0:DEPTH - 1];
 
 assign x_write = bus_wdata[9:0];
 assign y_write = bus_wdata[19:10];
 assign colour_in = bus_wdata[31:20];
-
-
-reg [1:0] frame_buffer [DISPLAY_HEIGHT - 1:0] [DISPLAY_WIDTH - 1:0];
+assign write_addr = y_write * DISPLAY_WIDTH + x_write;
 
 //always@(*) begin
 //    if ((x < 100) && (y < 100 || y > `DISPLAY_HEIGHT - 100))
@@ -68,15 +82,10 @@ always@(posedge clk) begin
     //   frame_buffer[y][x] <= 'b0;
     // end else
     if (vga_we) begin
-      frame_buffer[y_write][x_write] <= colour_in[1:0];
+      frame_buffer[write_addr] <= colour_in[1:0];
     end
+    colour_out <= palette[frame_buffer[read_addr]];
 
 end
-
-// send signal to VGA driver
-always@(*) begin
-    colour_out = frame_buffer[y][x];
-end
-
     
 endmodule
