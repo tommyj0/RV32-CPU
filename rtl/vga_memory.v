@@ -39,7 +39,7 @@ module vga_memory #
     input [31:0] bus_wdata, 
     input        vga_we,
     input frame_trig,   
-    output reg [11:0] colour_out
+    output [11:0] colour_out
     );
 
 wire [$clog2(DISPLAY_WIDTH)-1:0] x_write;
@@ -54,13 +54,13 @@ wire [$clog2(DEPTH) - 1:0] read_addr;
 assign write_addr = y_write * DISPLAY_WIDTH + x_write;
 assign read_addr = y* DISPLAY_WIDTH + x;
 wire [11:0] palette[0:3];
-assign palette[0] = 12'hFFF;
+assign palette[0] = 12'hF0F;
 assign palette[1] = 12'hFF0;
 assign palette[2] = 12'hF0F;
 assign palette[3] = 12'h0FF;
 
 
-reg [1:0] frame_buffer [0:DEPTH - 1];
+reg [1:0] frame_buffer [DEPTH: - 1];
 
 assign x_write = bus_wdata[9:0];
 assign y_write = bus_wdata[19:10];
@@ -77,6 +77,9 @@ assign write_addr = y_write * DISPLAY_WIDTH + x_write;
 //end
 
 
+reg [1:0] palette_index; 
+assign colour_out = palette[palette_index];
+
 always@(posedge clk) begin
     // if (rst) begin // don't strictly need a reset here, might have to do it in software
     //   frame_buffer[y][x] <= 'b0;
@@ -84,7 +87,7 @@ always@(posedge clk) begin
     if (vga_we) begin
       frame_buffer[write_addr] <= colour_in[1:0];
     end
-    colour_out <= palette[frame_buffer[read_addr]];
+    palette_index <= frame_buffer[read_addr];
 
 end
     

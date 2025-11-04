@@ -80,32 +80,51 @@ counter # (.WIDTH(10), .MAX(Vert_BackPorchEnd - 1)) counter_vert (
     .trig(frame_trig),
     .count(VertCount)
 );
-    
-always@(*) begin
+
+// clock HS and VS so they're synched with colour_out (takes colour a cycle to go thru frame_buffer BRAM)
+
+reg HS_dly;
+reg VS_dly;
+always@(posedge clk) begin
+    HS <= HS_dly;
+    VS <= VS_dly;
     if (HorzCount >= Horz_FrontPorchEnd && HorzCount < Horz_SyncPulseEnd)
-        HS = 1'b0;
+        HS_dly <= 1'b0;
     else
-    
-        HS = 1'b1;
+        HS_dly <= 1'b1;
     if (VertCount >= Vert_FrontPorchEnd && VertCount < Vert_SyncPulseEnd)
-        VS = 1'b0;
+        VS_dly <= 1'b0;
     else
-        VS = 1'b1;
+        VS_dly <= 1'b1;
 end
 
+
+reg draw_window_dly;
+reg draw_window_dly_reg;
 always@(*) begin
     if (HorzCount < Horz_Visible && VertCount < Vert_Visible) begin
-        colour_out = colour_in; 
+        draw_window_dly = 1'b1;
         x = HorzCount;
         y = VertCount;
     end
     else begin
-        colour_out = 'b0;
+        draw_window_dly = 1'b0;
         x = 'b0;
         y = 'b0;
     end
+    // if (draw_window_dly_reg) // wait for correct colour
+    //   colour_out = colour_in;
+    // else
+    //   colour_out = 'h0;
 end
 
-    
+always@(posedge clk) begin
+  // wait for colour_in to be available
+  draw_window_dly_reg <= draw_window_dly;
+  if (draw_window_dly_reg)
+    colour_out <= colour_in;
+  else
+    colour_out <= 'b0;
+end
 
 endmodule
