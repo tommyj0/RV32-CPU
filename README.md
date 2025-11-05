@@ -6,9 +6,11 @@ Simple RV32 core targetted for the Xilinx Basys3 FPGA. The aim is to have a ligh
 
 ## Requirements
 
-- Vivado
+- Vivado: I used 2024.2, most recent builds should work
 
-- riscv C compiler
+- riscv C compiler: follow instructions on repo to setup and install req
+
+- Some form of linux to use the riscv toolchain: if on windows you can use WSL or MSYS
 
 ## Progress
 
