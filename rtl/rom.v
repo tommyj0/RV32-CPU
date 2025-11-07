@@ -18,7 +18,7 @@ module rom #
 
 wire [ROMAddrWidth - 3:0] addr_4b; // 4 byte addressed
 
-reg [ROMWordWidth - 1:0] mem [2**(ROMAddrWidth - $clog2(ROMWordWidth >> 3)) - 1:0];
+reg [ROMWordWidth - 1:0] mem [0:2**(ROMAddrWidth - $clog2(ROMWordWidth >> 3)) - 1];
 
 assign addr_4b = addr[ROMAddrWidth - 1:2];
 

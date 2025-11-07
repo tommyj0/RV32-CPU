@@ -26,16 +26,22 @@
 // block is write-only
 
 
+// VGA block is setup for 800x600x12 
+// due to memory constraints, 400x300x8 is used
 module vga_memory #
 (
   parameter DISPLAY_WIDTH=800,
-  parameter DISPLAY_HEIGHT=600
+  parameter DISPLAY_HEIGHT=600,
+  parameter INPUT_COLOUR_BITS=8,
+  parameter OUTPUT_COLOUR_BITS=12
 )
 (
     input clk,
     input rst,
-    input [10:0] x,
+    // VGA DRIVER ACCESS (READ-ONLY)
+    input [10:0] x, 
     input [9:0] y, 
+    // BUS ACCESS (WRITE-ONLY)
     input [31:0] bus_wdata, 
     input        vga_we,
     input frame_trig,   
@@ -51,43 +57,22 @@ localparam integer DEPTH = DISPLAY_WIDTH*DISPLAY_HEIGHT;
 wire [$clog2(DEPTH) - 1:0] write_addr;
 wire [$clog2(DEPTH) - 1:0] read_addr;
 
-assign write_addr = y_write * DISPLAY_WIDTH + x_write;
-assign read_addr = y* DISPLAY_WIDTH + x;
-wire [11:0] palette[0:3];
-assign palette[0] = 12'hF0F;
-assign palette[1] = 12'hFF0;
-assign palette[2] = 12'hF0F;
-assign palette[3] = 12'h0FF;
+reg [INPUT_COLOUR_BITS - 1:0] frame_buffer [0:DEPTH - 1];
 
-
-reg [1:0] frame_buffer [DEPTH: - 1];
-
-assign x_write = bus_wdata[9:0];
-assign y_write = bus_wdata[19:10];
+assign x_write = bus_wdata[9:1];
+assign y_write = bus_wdata[19:11];
 assign colour_in = bus_wdata[31:20];
 assign write_addr = y_write * DISPLAY_WIDTH + x_write;
+assign read_addr = y* DISPLAY_WIDTH + x;
 
-//always@(*) begin
-//    if ((x < 100) && (y < 100 || y > `DISPLAY_HEIGHT - 100))
-//        colour_out = ~colour_in;
-//    else if ((x > `DISPLAY_WIDTH - 100 )&& (y < 100 || y > 600 - 100) )
-//        colour_out = ~colour_in;
-//    else 
-//        colour_out = colour_in;
-//end
-
-
-reg [1:0] palette_index; 
-assign colour_out = palette[palette_index];
+reg [INPUT_COLOUR_BITS - 1:0] colour_8bit; 
+assign colour_out = {colour_8bit[7:5], 1'b0, colour_8bit[4:2], 1'b0, colour_8bit[1:0], 2'b0};
 
 always@(posedge clk) begin
-    // if (rst) begin // don't strictly need a reset here, might have to do it in software
-    //   frame_buffer[y][x] <= 'b0;
-    // end else
     if (vga_we) begin
-      frame_buffer[write_addr] <= colour_in[1:0];
+      frame_buffer[write_addr] <= colour_in[INPUT_COLOUR_BITS - 1:0];
     end
-    palette_index <= frame_buffer[read_addr];
+    colour_8bit <= frame_buffer[read_addr];
 
 end
     

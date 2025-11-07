@@ -1,0 +1,131 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<wave_config>
+   <wave_state>
+   </wave_state>
+   <db_ref_list>
+      <db_ref path="top_tb_behav.wdb" id="1">
+         <top_modules>
+            <top_module name="glbl" />
+            <top_module name="top_tb" />
+         </top_modules>
+      </db_ref>
+   </db_ref_list>
+   <zoom_setting>
+      <ZoomStartTime time="0.000 ns"></ZoomStartTime>
+      <ZoomEndTime time="1,099.326 ns"></ZoomEndTime>
+      <Cursor1Time time="60.699 ns"></Cursor1Time>
+   </zoom_setting>
+   <column_width_setting>
+      <NameColumnWidth column_width="104"></NameColumnWidth>
+      <ValueColumnWidth column_width="94"></ValueColumnWidth>
+   </column_width_setting>
+   <WVObjectSize size="27" />
+   <wvobject fp_name="/top_tb/clk" type="logic">
+      <obj_property name="ElementShortName">clk</obj_property>
+      <obj_property name="ObjectShortName">clk</obj_property>
+   </wvobject>
+   <wvobject fp_name="/top_tb/rst" type="logic">
+      <obj_property name="ElementShortName">rst</obj_property>
+      <obj_property name="ObjectShortName">rst</obj_property>
+   </wvobject>
+   <wvobject fp_name="/top_tb/btns" type="array">
+      <obj_property name="ElementShortName">btns[4:0]</obj_property>
+      <obj_property name="ObjectShortName">btns[4:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="/top_tb/led" type="array">
+      <obj_property name="ElementShortName">led[15:0]</obj_property>
+      <obj_property name="ObjectShortName">led[15:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="/top_tb/colour_out" type="array">
+      <obj_property name="ElementShortName">colour_out[11:0]</obj_property>
+      <obj_property name="ObjectShortName">colour_out[11:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="/top_tb/HS" type="logic">
+      <obj_property name="ElementShortName">HS</obj_property>
+      <obj_property name="ObjectShortName">HS</obj_property>
+   </wvobject>
+   <wvobject fp_name="/top_tb/VS" type="logic">
+      <obj_property name="ElementShortName">VS</obj_property>
+      <obj_property name="ObjectShortName">VS</obj_property>
+   </wvobject>
+   <wvobject fp_name="/top_tb/top_inst/core1/clk" type="logic">
+      <obj_property name="ElementShortName">clk</obj_property>
+      <obj_property name="ObjectShortName">clk</obj_property>
+   </wvobject>
+   <wvobject fp_name="/top_tb/top_inst/core1/rst" type="logic">
+      <obj_property name="ElementShortName">rst</obj_property>
+      <obj_property name="ObjectShortName">rst</obj_property>
+   </wvobject>
+   <wvobject fp_name="/top_tb/top_inst/core1/bus_rdata" type="array">
+      <obj_property name="ElementShortName">bus_rdata[31:0]</obj_property>
+      <obj_property name="ObjectShortName">bus_rdata[31:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="/top_tb/top_inst/core1/bus_addr" type="array">
+      <obj_property name="ElementShortName">bus_addr[31:0]</obj_property>
+      <obj_property name="ObjectShortName">bus_addr[31:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="/top_tb/top_inst/core1/bus_wdata" type="array">
+      <obj_property name="ElementShortName">bus_wdata[31:0]</obj_property>
+      <obj_property name="ObjectShortName">bus_wdata[31:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="/top_tb/top_inst/core1/bus_we" type="logic">
+      <obj_property name="ElementShortName">bus_we</obj_property>
+      <obj_property name="ObjectShortName">bus_we</obj_property>
+   </wvobject>
+   <wvobject fp_name="/top_tb/top_inst/core1/led" type="array">
+      <obj_property name="ElementShortName">led[15:0]</obj_property>
+      <obj_property name="ObjectShortName">led[15:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="/top_tb/top_inst/core1/rom_rdata" type="array">
+      <obj_property name="ElementShortName">rom_rdata[31:0]</obj_property>
+      <obj_property name="ObjectShortName">rom_rdata[31:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="/top_tb/top_inst/core1/ram_rdata" type="array">
+      <obj_property name="ElementShortName">ram_rdata[31:0]</obj_property>
+      <obj_property name="ObjectShortName">ram_rdata[31:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="/top_tb/top_inst/core1/ram_we" type="array">
+      <obj_property name="ElementShortName">ram_we[0:0]</obj_property>
+      <obj_property name="ObjectShortName">ram_we[0:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="/top_tb/top_inst/core1/ram_wdata" type="array">
+      <obj_property name="ElementShortName">ram_wdata[31:0]</obj_property>
+      <obj_property name="ObjectShortName">ram_wdata[31:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="/top_tb/top_inst/core1/rom_addr" type="array">
+      <obj_property name="ElementShortName">rom_addr[31:0]</obj_property>
+      <obj_property name="ObjectShortName">rom_addr[31:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="/top_tb/top_inst/core1/ram_addr" type="array">
+      <obj_property name="ElementShortName">ram_addr[31:0]</obj_property>
+      <obj_property name="ObjectShortName">ram_addr[31:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="/top_tb/top_inst/core1/ram_rdata_cpu" type="array">
+      <obj_property name="ElementShortName">ram_rdata_cpu[31:0]</obj_property>
+      <obj_property name="ObjectShortName">ram_rdata_cpu[31:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="/top_tb/top_inst/core1/bus_access" type="logic">
+      <obj_property name="ElementShortName">bus_access</obj_property>
+      <obj_property name="ObjectShortName">bus_access</obj_property>
+   </wvobject>
+   <wvobject fp_name="/top_tb/top_inst/core1/ram_access" type="logic">
+      <obj_property name="ElementShortName">ram_access</obj_property>
+      <obj_property name="ObjectShortName">ram_access</obj_property>
+   </wvobject>
+   <wvobject fp_name="/top_tb/top_inst/core1/ROMAddrWidth" type="array">
+      <obj_property name="ElementShortName">ROMAddrWidth[31:0]</obj_property>
+      <obj_property name="ObjectShortName">ROMAddrWidth[31:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="/top_tb/top_inst/core1/ROMDataWidth" type="array">
+      <obj_property name="ElementShortName">ROMDataWidth[31:0]</obj_property>
+      <obj_property name="ObjectShortName">ROMDataWidth[31:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="/top_tb/top_inst/core1/RAMAddrWidth" type="array">
+      <obj_property name="ElementShortName">RAMAddrWidth[31:0]</obj_property>
+      <obj_property name="ObjectShortName">RAMAddrWidth[31:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="/top_tb/top_inst/core1/RAMDataWidth" type="array">
+      <obj_property name="ElementShortName">RAMDataWidth[31:0]</obj_property>
+      <obj_property name="ObjectShortName">RAMDataWidth[31:0]</obj_property>
+   </wvobject>
+</wave_config>

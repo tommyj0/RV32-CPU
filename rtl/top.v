@@ -4,6 +4,7 @@
 //////////////////////////////////////////////////////////////////////////////////
 
 // system specific top
+`define VGA_ADDR 32'h0001_0000
 module top #
 (
   parameter DISPLAY_WIDTH=800,
@@ -12,6 +13,7 @@ module top #
 (
   input clk,
   input rst,
+  input [4:0] btns,
   output [15:0] led,
   output [11:0] colour_out,
   output HS,
@@ -23,6 +25,8 @@ wire [31:0] bus_addr;
 wire [31:0] bus_rdata;
 wire [31:0] bus_wdata;
 wire        bus_we;
+
+assign bus_rdata = 32'h0000_0000; // TODO
 
 core core1 (
   .clk(clk),
@@ -59,12 +63,12 @@ vga_driver1
 
 wire vga_we;
 
-assign vga_we = 0; // TODO choose a range
+assign vga_we = bus_addr == `VGA_ADDR ? 1'b1 : 1'b0; // TODO choose a range
 
 vga_memory  #
 (
-  .DISPLAY_WIDTH(DISPLAY_WIDTH),
-  .DISPLAY_HEIGHT(DISPLAY_HEIGHT)
+  .DISPLAY_WIDTH(DISPLAY_WIDTH/2),
+  .DISPLAY_HEIGHT(DISPLAY_HEIGHT/2)
 )
 vga_memory1
 (

@@ -20,7 +20,7 @@ module ram #
 
 wire [RAMAddrWidth - 3:0] addr_4b; // 4 byte addressed
 
-reg [RAMWordWidth - 1:0] mem [2**(RAMAddrWidth - $clog2(RAMWordWidth >> 3)) - 1:0];
+reg [RAMWordWidth - 1:0] mem [0:2**(RAMAddrWidth - $clog2(RAMWordWidth >> 3)) - 1];
 
 assign addr_4b = addr[RAMAddrWidth - 1:2];
 

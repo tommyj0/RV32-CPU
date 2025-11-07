@@ -64,11 +64,11 @@ set_property -dict { PACKAGE_PIN L1    IOSTANDARD LVCMOS33 } [get_ports {led[15]
 
 
 ##Buttons
-#set_property -dict { PACKAGE_PIN U18   IOSTANDARD LVCMOS33 } [get_ports btnC]
-#set_property -dict { PACKAGE_PIN T18   IOSTANDARD LVCMOS33 } [get_ports btnU]
-#set_property -dict { PACKAGE_PIN W19   IOSTANDARD LVCMOS33 } [get_ports btnL]
-#set_property -dict { PACKAGE_PIN T17   IOSTANDARD LVCMOS33 } [get_ports btnR]
-#set_property -dict { PACKAGE_PIN U17   IOSTANDARD LVCMOS33 } [get_ports btnD]
+set_property -dict { PACKAGE_PIN U18   IOSTANDARD LVCMOS33 } [get_ports {btns[0]}] ;# C
+set_property -dict { PACKAGE_PIN T18   IOSTANDARD LVCMOS33 } [get_ports {btns[1]}] ;# U
+set_property -dict { PACKAGE_PIN W19   IOSTANDARD LVCMOS33 } [get_ports {btns[2]}] ;# L
+set_property -dict { PACKAGE_PIN T17   IOSTANDARD LVCMOS33 } [get_ports {btns[3]}] ;# R
+set_property -dict { PACKAGE_PIN U17   IOSTANDARD LVCMOS33 } [get_ports {btns[4]}] ;# D
 
 
 ##Pmod Header JA
