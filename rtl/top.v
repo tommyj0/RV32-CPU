@@ -4,11 +4,14 @@
 //////////////////////////////////////////////////////////////////////////////////
 
 // system specific top
-`define VGA_ADDR 32'h0001_0000
+`include "reg_map.vh"
+
+// `define VGA_ADDR 32'h0001_0000
 module top #
 (
   parameter DISPLAY_WIDTH=800,
-  parameter DISPLAY_HEIGHT=600
+  parameter DISPLAY_HEIGHT=600,
+  parameter DISPLAY_SCALE=2
 )
 (
   input clk,
@@ -67,8 +70,8 @@ assign vga_we = bus_addr == `VGA_ADDR ? 1'b1 : 1'b0; // TODO choose a range
 
 vga_memory  #
 (
-  .DISPLAY_WIDTH(DISPLAY_WIDTH/2),
-  .DISPLAY_HEIGHT(DISPLAY_HEIGHT/2)
+  .DISPLAY_WIDTH(DISPLAY_WIDTH/DISPLAY_SCALE),
+  .DISPLAY_HEIGHT(DISPLAY_HEIGHT/DISPLAY_SCALE)
 )
 vga_memory1
 (

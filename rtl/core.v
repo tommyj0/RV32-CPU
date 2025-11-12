@@ -2,7 +2,7 @@
 //////////////////////////////////////////////////////////////////////////////////
 // MODULE: core
 //////////////////////////////////////////////////////////////////////////////////
-
+`include "reg_map.vh"
 
 module core #
 (
@@ -32,11 +32,11 @@ wire [31:0]    ram_rdata_cpu;
 wire bus_access;
 wire ram_access;
 
-assign bus_access = ram_addr > (2**RAMAddrWidth - 1) ? 1'b1 : 1'b0; // if address is outside RAM range, it's bus access
+assign bus_access = ram_addr & `QUAD_MASK == `IO_BASE_ADDR ? 1'b1 : 1'b0;  // 4th quadrant of addressing space for bus
 assign bus_we = ram_we & bus_access;
 assign bus_wdata = ram_wdata;
 
-assign ram_access = ~bus_access;
+assign ram_access = ram_addr & `QUAD_MASK == `RAM_BASE_ADDR ? 1'b1 : 1'b0;
 
 assign bus_addr = ram_addr;
 
