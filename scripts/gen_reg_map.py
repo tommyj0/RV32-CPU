@@ -6,7 +6,7 @@ reg_maps = [
   ("ROM_BASE_ADDR",0x0000_0000), 
   ("RAM_BASE_ADDR",0x4000_0000), 
   ("EXT_BASE_ADDR",0x8000_0000), # idk what external could be used for 
-  ("IO_BASE_ADDR",0xC000_0000), # for periphe
+  ("IO_BASE_ADDR",0xC000_0000), # for peripherals
   ("VGA_ADDR",0xC000_0000), 
 ]
 

@@ -1,7 +1,7 @@
 
 cmake_minimum_required(VERSION 3.15)
 
-project(rvcpu LANGUAGES C)
+project(rvcpu LANGUAGES C ASM)
 
 set(CMAKE_C_COMPILER "riscv64-unknown-elf-gcc")
 set(CMAKE_ASM_COMPILER "riscv64-unknown-elf-gcc")
@@ -24,7 +24,10 @@ set(SRC_DIR ${CMAKE_SOURCE_DIR}/src)
 set(INCLUDE_DIR ${CMAKE_SOURCE_DIR}/inc)
 
 # Collect all .c or .cpp files automatically
-file(GLOB_RECURSE SOURCES ${SRC_DIR}/*.c ${CMAKE_SOURCE_DIR}/utils/*.s)
+file(GLOB_RECURSE SOURCES 
+    ${CMAKE_SOURCE_DIR}/utils/crt0.s
+    ${SRC_DIR}/*.c 
+    )
 
 include_directories(${INCLUDE_DIR})
 

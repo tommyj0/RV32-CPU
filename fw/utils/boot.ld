@@ -18,6 +18,7 @@ SECTIONS
   {
     .text :
       {
+        *crt0.s.o(.text)
         *(.text)
       } > REGION_TEXT
     .rodata :

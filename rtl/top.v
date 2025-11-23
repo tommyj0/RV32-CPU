@@ -23,6 +23,7 @@ module top #
   output VS
 );
 
+
 // I/O bus wires
 wire [31:0] bus_addr;
 wire [31:0] bus_rdata;

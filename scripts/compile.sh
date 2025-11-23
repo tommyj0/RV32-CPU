@@ -22,4 +22,5 @@ xxd -p $OUT.bin > $OUT.hex
 
 rm -f $MEM_OUT
 cp $OUT.hex $MEM_OUT
+python scripts/line_break.py $MEM_OUT 
 # xxd -s $OUT.elf > example.bin

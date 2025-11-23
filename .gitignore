@@ -4,8 +4,10 @@
 /*.sim
 /*.xpr
 /*.srcs
-/RV32*/
+/RV32-CPU*/
 /mem/*
 *.log
 *.jou
 /.Xil
+/build
+/bin

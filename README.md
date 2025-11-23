@@ -1,8 +1,14 @@
 # RV32-CPU
 
-## Description
+## Overview
 
 Simple RV32 core targetted for the Xilinx Basys3 FPGA. The aim is to have a lightweight core that complies with RV32G. Following that it should be able to use custom peripherals such as a mouse driver and VGA driver.
+
+### Progress
+
+Firmware compiles successfully into rom format which is readable. 
+
+RTL is still in progress. Most modules work individually.
 
 ## Requirements
 
@@ -14,7 +20,7 @@ Simple RV32 core targetted for the Xilinx Basys3 FPGA. The aim is to have a ligh
 
 - Python 3.8+ if you want to regen the reg_maps 
 
-## Usage
+## Run
 
 ### Compile 
 
@@ -22,49 +28,9 @@ Simple RV32 core targetted for the Xilinx Basys3 FPGA. The aim is to have a ligh
 ./scripts/compile.sh
 ```
 
+### FPGA
 
-## Progress
-
-### Hardware 
-
-| module | design | testbench | verified |
-|---|---:|---|:---|
-| cpu (top) | X | - | - | 
-| instr_fetch | X | X | X |
-| decode | - |  - | - |
-| regfile | X |  X | X |
-| alu | X | X  | X |
-| alu_control | X |  - | - |
-| control_unit | X |  - | - |
-| mem_access | X |  - | - |
-| ram | X |  - | - |
-| rom | X |  - | - |
-
-Done:
-
-- Most of the RTL for CPU pipeline stages
-
-- Working VGA Driver for 800x600x12 (scaled down to 400x300x8 in the frame buffer)
-
-TODO:
-
-- Immediate Generation
-
-- ALU control
-
-- VGA Driver Connection
-
-### Firmware
-
-Done:
-
-- Quick test build to manually copy and paste instructions into mem
-
-TODO:
-
-- Cmake setup
-
-- Automatically move binary into the mem file
+Include all sources in Vivado (including memory)
 
 
 
