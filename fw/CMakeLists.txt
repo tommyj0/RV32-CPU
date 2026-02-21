@@ -21,7 +21,7 @@ endif()
 # --------------------------------------------------------------------
 # Source and include directories
 set(SRC_DIR ${CMAKE_SOURCE_DIR}/src)
-set(INCLUDE_DIR ${CMAKE_SOURCE_DIR}/inc)
+set(INCLUDE_DIR ${CMAKE_SOURCE_DIR}/include)
 
 # Collect all .c or .cpp files automatically
 file(GLOB_RECURSE SOURCES 

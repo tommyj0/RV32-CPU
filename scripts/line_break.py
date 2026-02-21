@@ -16,7 +16,10 @@ def align_rom(file_name,align_bytes=4):
   if len(master_line) % align_chars != 0:
     raise Exception(f"incorrect line length for {align_bytes} byte alignment\n line: {master_line}")
   for i in range(len(master_line)//align_chars):
-    file.write(f"{master_line[i:i+8]}\n")
+    for j in range(4):
+      start_index = 8*i + 6 - j*2
+      file.write(f"{master_line[start_index:start_index+2]}")
+    file.write("\n")
   file.close()
     
     

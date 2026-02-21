@@ -6,6 +6,7 @@ vga_display_init(display_t * pdisplay, uint32_t width, uint32_t height, uint32_t
   pdisplay->width = width;
   pdisplay->height = height;
   pdisplay->scale = scale;
+  // TODO: HW init for display res
 }
 
 void
