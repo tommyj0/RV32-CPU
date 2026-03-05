@@ -5,7 +5,7 @@ _start:
   nop
   nop
   mv x1,x0
-  mv x2,x0
+  li sp, 0x40010000
   mv x3,x0
   mv x4,x0
   mv x5,x0

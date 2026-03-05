@@ -19,6 +19,8 @@
 // 
 //////////////////////////////////////////////////////////////////////////////////
 
+`include "opcodes.vh"
+
 
 module decode(
     input               clk,
@@ -47,7 +49,6 @@ module decode(
 
 wire [31:0]     read_data1;
 wire [31:0]     read_data2;
-reg  [31:0]     Next_imm;
 
 wire [0:0] ctrl_branch_id_exe_next;
 wire [0:0] ctrl_mem_read_id_exe_next;
@@ -57,9 +58,38 @@ wire [0:0] ctrl_mem_write_id_exe_next;
 wire [0:0] ctrl_alu_src_id_exe_next;
 wire [0:0] ctrl_write_reg_id_exe_next;
 
+// Immediate Generation
+
+reg  [31:0]     Next_imm;
+wire [6:0] opcode;
+assign opcode = instr_if_id[6:0];
+
+// TODO: reduce number of dependent bits
 always@(*)
 begin
-    Next_imm = 'h0; // TODO
+    case (opcode)
+        // I
+        `JALR,
+        `MATHI,
+        `LOAD:
+            Next_imm = {{20{instr_if_id[31]}},instr_if_id[31:20]};
+        // SB
+        `BRANCH:
+            Next_imm = {{19{instr_if_id[31]}},instr_if_id[31],instr_if_id[7],instr_if_id[30:25],instr_if_id[11:8],1'b0};
+        // S
+        `STORE:
+            Next_imm = {{20{instr_if_id[31]}},instr_if_id[31:25],instr_if_id[11:7]};
+        // UJ
+        `JAL:
+            Next_imm = {{11{instr_if_id[31]}},instr_if_id[31],instr_if_id[19:12],instr_if_id[20],instr_if_id[30:21],1'b0};
+        // U
+        `LUI,
+        `AUIPC:
+            Next_imm = {instr_if_id[31:12],12'h000};
+        // R
+        default:
+            Next_imm = 'h0;
+    endcase
 end
 
 always@(posedge clk)

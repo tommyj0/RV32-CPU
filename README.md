@@ -40,6 +40,6 @@ Pipeline registers are typically at the end of stages. Might tweak this to put t
 
 VGA Timings are taken from this website: [VGA Signal Timings](http://www.tinyvga.com/vga-timing)
 
-Compiled with GNU89
+Written in C99
 
 
