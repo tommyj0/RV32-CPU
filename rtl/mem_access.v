@@ -4,6 +4,7 @@ module mem_access # (
     parameter AddrWidth = 10,
     parameter DataWidth = 32
 ) (
+    // INPUTS
     input               clk,
     input               ctrl_branch_exe_mem,
     input               ctrl_mem_read_exe_mem,
@@ -13,6 +14,7 @@ module mem_access # (
     input       [31:0]  alu_out_exe_mem,
     // input       [31:0]  w_data_exe_mem,
     input       [4:0]   write_reg_exe_mem,
+    // OUTPUTS
     // output      [31:0]  r_data_mem_wb,
     output reg  [31:0]  reg_out_mem_wb,
     output reg  [4:0]   write_reg_mem_wb,

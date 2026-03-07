@@ -5,6 +5,7 @@
 
 module execute(
         
+        // INPUTS
         input               clk,
         input               rst,
         // inputs from decode
@@ -22,7 +23,7 @@ module execute(
         input [4:0]         write_reg_id_exe,
         input [2:0]         funct3_id_exe,
         input [0:0]         funct7_5_id_exe,
-        // Sync outputs
+        // OUTPUTS
         output reg [31:0]   alu_result_exe_mem,
         output reg          zero_exe_mem,
         output reg [31:0]   PC_branch_exe_mem,

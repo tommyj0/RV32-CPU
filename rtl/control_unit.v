@@ -59,6 +59,7 @@ begin
         `AUIPC:
         begin
             reg_write = 'b1;
+            alu_src = 'b1;
         end
         `STORE:
         begin
@@ -73,6 +74,7 @@ begin
         `LUI:
         begin
             reg_write = 'b1;
+            alu_src = 'b1;
         end
         `BRANCH:
         begin

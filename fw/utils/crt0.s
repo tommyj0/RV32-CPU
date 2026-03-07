@@ -35,3 +35,4 @@ _start:
   mv x29,x0
   mv x30,x0
   mv x31,x0
+  call main

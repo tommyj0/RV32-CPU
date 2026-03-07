@@ -2,11 +2,9 @@
 
 ## HW
 
-- Immediate Generation
-
-- ALU control
-
 - VGA Driver Connection
+
+- add some sort of masking 
 
 ## FW
 

@@ -7,7 +7,6 @@
 ////////////////////////////////////////////////////////////////////////////////
 
 
-
 module cpu(
     input               clk,
     input               rst,
@@ -34,6 +33,7 @@ instr_fetch u_instr_fetch(
     .rst(rst),
     .branch_mem_if(ctrl_branch_mem_if),
     .PC_branch_mem_if(PC_branch_mem_if),
+    .stall(stall_id),
     // .instr_if_id(instr_if_id),
     .PC_if_id(PC_if_id)
 );
@@ -50,6 +50,8 @@ wire [31:0] write_data_wb_id;
 wire [0:0]  ctrl_write_reg_wb_id; // finish at id
 
 wire [4:0]  write_reg_id_exe;
+
+wire [0:0]  stall_id; // typically the first stall, will go to both EXE and IF
 
 
 // ctrl wires
@@ -87,7 +89,8 @@ decode u_decode(
     .ctrl_alu_src_id_exe(ctrl_alu_src_id_exe),
     .ctrl_write_reg_id_exe(ctrl_write_reg_id_exe),
     .funct3_id_exe(funct3_id_exe),
-    .funct7_5_id_exe(funct7_5_id_exe)
+    .funct7_5_id_exe(funct7_5_id_exe),
+    .stall_out(stall_id)
 );
 
 // Execute wires
@@ -103,6 +106,7 @@ wire [0:0]    ctrl_mem_read_exe_mem; // finishes at mem_access
 wire [0:0]    ctrl_mem_to_reg_exe_mem; // finish at wb
 wire [0:0]    ctrl_mem_write_exe_mem; // finish at mem
 wire [0:0]    ctrl_write_reg_exe_mem; // finish at id
+
 
 // Execute instanciation
 execute u_execute(
@@ -145,9 +149,10 @@ wire [4:0]  write_reg_mem_wb;
 // wire [0:0]    ctrl_branch_mem_if; // finishes at instr_fetch
 wire [0:0]    ctrl_mem_to_reg_mem_wb; // finish at wb
 wire [0:0]    ctrl_write_reg_mem_wb; // finish at id
+
 // Memory Access instanciation
 mem_access u_mem_access(
-    // inputs
+    // INPUTS
     .clk(clk),
     .ctrl_branch_exe_mem(ctrl_branch_exe_mem),
     .ctrl_mem_read_exe_mem(ctrl_mem_read_exe_mem),
@@ -157,8 +162,8 @@ mem_access u_mem_access(
     .alu_out_exe_mem(alu_result_exe_mem),
     // .w_data_exe_mem(rs2_exe_mem),
     .write_reg_exe_mem(write_reg_exe_mem),
-    // output
     // .r_data_mem_wb(r_data_mem_wb),
+    // OUTPUTS
     .reg_out_mem_wb(reg_out_mem_wb),
     .write_reg_mem_wb(write_reg_mem_wb),
     .ctrl_branch_mem_wb(ctrl_branch_mem_if),
@@ -194,9 +199,5 @@ write_back u_write_back(
 
 
 assign led = r_data_mem_wb[15:0];
-
-
-
-
 
 endmodule

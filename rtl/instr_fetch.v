@@ -5,10 +5,13 @@
 
 module instr_fetch
 (
+    // INPUTS
     input               clk,
     input               rst,
     input               branch_mem_if,
     input       [31:0]  PC_branch_mem_if,
+    input               stall,
+    // OUTPUTS
     // output      [31:0]  instr_if_id,
     output      [31:0]  PC_if_id
 );
@@ -17,7 +20,7 @@ wire    [31:0]  Next_PC;
 reg     [31:0]  PC_reg;
 
 assign PC_if_id = PC_reg;
-assign Next_PC = (branch_mem_if) ? PC_branch_mem_if : PC_reg + 4;
+assign Next_PC = (branch_mem_if) ? PC_branch_mem_if : (stall) ? PC_reg : PC_reg + 4;
 
 always@(posedge clk)
 begin
