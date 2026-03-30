@@ -12,14 +12,14 @@
    </db_ref_list>
    <zoom_setting>
       <ZoomStartTime time="0.000 ns"></ZoomStartTime>
-      <ZoomEndTime time="791.513 ns"></ZoomEndTime>
-      <Cursor1Time time="460.358 ns"></Cursor1Time>
+      <ZoomEndTime time="976.569 ns"></ZoomEndTime>
+      <Cursor1Time time="449.563 ns"></Cursor1Time>
    </zoom_setting>
    <column_width_setting>
-      <NameColumnWidth column_width="339"></NameColumnWidth>
-      <ValueColumnWidth column_width="79"></ValueColumnWidth>
+      <NameColumnWidth column_width="309"></NameColumnWidth>
+      <ValueColumnWidth column_width="102"></ValueColumnWidth>
    </column_width_setting>
-   <WVObjectSize size="15" />
+   <WVObjectSize size="16" />
    <wvobject fp_name="/top_tb/clk" type="logic">
       <obj_property name="ElementShortName">clk</obj_property>
       <obj_property name="ObjectShortName">clk</obj_property>
@@ -147,7 +147,6 @@
    <wvobject fp_name="group289" type="group">
       <obj_property name="label">DECODE</obj_property>
       <obj_property name="DisplayName">label</obj_property>
-      <obj_property name="isExpanded"></obj_property>
       <wvobject fp_name="/top_tb/top_inst/core1/cpu1/u_decode/clk" type="logic">
          <obj_property name="ElementShortName">clk</obj_property>
          <obj_property name="ObjectShortName">clk</obj_property>
@@ -656,5 +655,9 @@
          <obj_property name="ElementShortName">INIT_FILE[55:0]</obj_property>
          <obj_property name="ObjectShortName">INIT_FILE[55:0]</obj_property>
       </wvobject>
+   </wvobject>
+   <wvobject fp_name="/top_tb/top_inst/core1/cpu1/u_instr_fetch/PC_reg" type="array">
+      <obj_property name="ElementShortName">PC_reg[31:0]</obj_property>
+      <obj_property name="ObjectShortName">PC_reg[31:0]</obj_property>
    </wvobject>
 </wave_config>
