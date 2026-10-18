@@ -6,41 +6,41 @@
 module execute(
         
         // INPUTS
-        input               clk,
-        input               rst,
+        input logic               clk,
+        input logic               rst,
         // inputs from decode
-        input [31:0]        PC_id_exe,
-        input [31:0]        rs1_id_exe,
-        input [31:0]        rs2_id_exe,
-        input [31:0]        imm_id_exe,
-        input               ctrl_alu_src_id_exe,
-        input [1:0]         ctrl_alu_op_id_exe,
-        input [0:0]         ctrl_branch_id_exe, // finishes at instr_fetch
-        input [0:0]         ctrl_mem_read_id_exe, // finishes at mem_access
-        input [0:0]         ctrl_mem_to_reg_id_exe, // finish at wb
-        input [0:0]         ctrl_mem_write_id_exe, // finish at mem
-        input [0:0]         ctrl_write_reg_id_exe, // finish at id
-        input [4:0]         write_reg_id_exe,
-        input [2:0]         funct3_id_exe,
-        input [0:0]         funct7_5_id_exe,
+        input logic [31:0]        PC_id_exe,
+        input logic [31:0]        rs1_id_exe,
+        input logic [31:0]        rs2_id_exe,
+        input logic [31:0]        imm_id_exe,
+        input logic               ctrl_alu_src_id_exe,
+        input logic [1:0]         ctrl_alu_op_id_exe,
+        input logic [0:0]         ctrl_branch_id_exe, // finishes at instr_fetch
+        input logic [0:0]         ctrl_mem_read_id_exe, // finishes at mem_access
+        input logic [0:0]         ctrl_mem_to_reg_id_exe, // finish at wb
+        input logic [0:0]         ctrl_mem_write_id_exe, // finish at mem
+        input logic [0:0]         ctrl_write_reg_id_exe, // finish at id
+        input logic [4:0]         write_reg_id_exe,
+        input logic [2:0]         funct3_id_exe,
+        input logic [0:0]         funct7_5_id_exe,
         // OUTPUTS
-        output reg [31:0]   alu_result_exe_mem,
-        output reg          zero_exe_mem,
-        output reg [31:0]   PC_branch_exe_mem,
-        output reg [31:0]   rs2_exe_mem,
-        output reg [4:0]    write_reg_exe_mem,
-        output reg [0:0]    ctrl_branch_exe_mem, // finishes at instr_fetch
-        output reg [0:0]    ctrl_mem_read_exe_mem, // finishes at mem_access
-        output reg [0:0]    ctrl_mem_to_reg_exe_mem, // finish at wb
-        output reg [0:0]    ctrl_mem_write_exe_mem, // finish at mem
-        output reg [0:0]    ctrl_write_reg_exe_mem // finish at id
+        output logic [31:0]   alu_result_exe_mem,
+        output logic          zero_exe_mem,
+        output logic [31:0]   PC_branch_exe_mem,
+        output logic [31:0]   rs2_exe_mem,
+        output logic [4:0]    write_reg_exe_mem,
+        output logic [0:0]    ctrl_branch_exe_mem, // finishes at instr_fetch
+        output logic [0:0]    ctrl_mem_read_exe_mem, // finishes at mem_access
+        output logic [0:0]    ctrl_mem_to_reg_exe_mem, // finish at wb
+        output logic [0:0]    ctrl_mem_write_exe_mem, // finish at mem
+        output logic [0:0]    ctrl_write_reg_exe_mem // finish at id
 
 );
-wire [31:0] alu_in1;
-wire [31:0] alu_in2;
+logic [31:0] alu_in1;
+logic [31:0] alu_in2;
 
-reg     [31:0]  Next_PC_sum;
-wire    [31:0]  Next_alu_result;
+logic     [31:0]  Next_PC_sum;
+logic    [31:0]  Next_alu_result;
 
 // synchronous
 always@(posedge clk)
@@ -83,7 +83,7 @@ assign alu_in1 = rs1_id_exe;
 assign alu_in2 = ctrl_alu_src_id_exe ? imm_id_exe : rs2_id_exe;
 
 
-wire [3:0] alu_ctrl;
+logic [3:0] alu_ctrl;
 alu_control u_alu_control (
    .funct3(funct3_id_exe),
    .funct7_5(funct7_5_id_exe),

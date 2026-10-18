@@ -1,12 +1,12 @@
 module top_tb();
 
-reg clk;
-reg rst;
-reg [4:0] btns;
-wire [15:0] led;
-wire [11:0] colour_out;
-wire HS;
-wire VS;
+logic clk;
+logic rst;
+logic [4:0] btns;
+logic [15:0] led;
+logic [11:0] colour_out;
+logic HS;
+logic VS;
 
 
 top top_inst (
@@ -31,11 +31,10 @@ initial begin
     #20;
     rst = 0;
 
-    // Add further stimulus here as needed
 
     // Finish simulation after some time
-    #1000;
-    $finish;
+    #1000000;
+    // $finish;
 end
 
 endmodule

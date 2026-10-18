@@ -1,14 +1,14 @@
 `timescale 1ns / 1ps
 
 module reg_file_tb();
-reg clk = 0;
-reg [4:0] read_reg1 = 0;
-reg [4:0] read_reg2 = 0;
-reg [4:0] write_reg = 0;
-reg [31:0] write_data = 0;
-reg write_reg_enable = 0;
-wire [31:0] read_data1;
-wire [31:0] read_data2;
+logic clk = 0;
+logic [4:0] read_reg1 = 0;
+logic [4:0] read_reg2 = 0;
+logic [4:0] write_reg = 0;
+logic [31:0] write_data = 0;
+logic write_reg_enable = 0;
+logic [31:0] read_data1;
+logic [31:0] read_data2;
 
 
 initial

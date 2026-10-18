@@ -36,28 +36,28 @@ module vga_memory #
   parameter OUTPUT_COLOUR_BITS=12
 )
 (
-    input clk,
-    input rst,
+    input logic clk,
+    input logic rst,
     // VGA DRIVER ACCESS (READ-ONLY)
-    input [10:0] x, 
-    input [9:0] y, 
+    input logic [10:0] x, 
+    input logic [9:0] y, 
     // BUS ACCESS (WRITE-ONLY)
-    input [31:0] bus_wdata, 
-    input        vga_we,
-    input frame_trig,   
-    output [11:0] colour_out
+    input logic [31:0] bus_wdata, 
+    input logic        vga_we,
+    input logic frame_trig,   
+    output logic [11:0] colour_out
     );
 
-wire [$clog2(DISPLAY_WIDTH)-1:0] x_write;
-wire [$clog2(DISPLAY_HEIGHT)-1:0] y_write;
-wire [11:0] colour_in;
+logic [$clog2(DISPLAY_WIDTH)-1:0] x_write;
+logic [$clog2(DISPLAY_HEIGHT)-1:0] y_write;
+logic [11:0] colour_in;
 
 localparam integer DEPTH = DISPLAY_WIDTH*DISPLAY_HEIGHT;
 
-wire [$clog2(DEPTH) - 1:0] write_addr;
-wire [$clog2(DEPTH) - 1:0] read_addr;
+logic [$clog2(DEPTH) - 1:0] write_addr;
+logic [$clog2(DEPTH) - 1:0] read_addr;
 
-reg [INPUT_COLOUR_BITS - 1:0] frame_buffer [0:DEPTH - 1];
+logic [INPUT_COLOUR_BITS - 1:0] frame_buffer [0:DEPTH - 1];
 
 assign x_write = bus_wdata[9:1];
 assign y_write = bus_wdata[19:11];
@@ -65,7 +65,7 @@ assign colour_in = bus_wdata[31:20];
 assign write_addr = y_write * DISPLAY_WIDTH + x_write;
 assign read_addr = (y >> 1)* DISPLAY_WIDTH + (x >> 1);
 
-reg [INPUT_COLOUR_BITS - 1:0] colour_8bit; 
+logic [INPUT_COLOUR_BITS - 1:0] colour_8bit; 
 assign colour_out = {colour_8bit[7:5], 1'b0, colour_8bit[4:2], 1'b0, colour_8bit[1:0], 2'b0};
 
 always@(posedge clk) begin

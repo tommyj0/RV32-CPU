@@ -12,25 +12,25 @@ module core #
     parameter RAMDataWidth = 32
 )
 (
-  input clk,
-  input rst,
-  input  [31:0] bus_rdata,
-  output [31:0] bus_addr,
-  output [31:0] bus_wdata,
-  output        bus_we,
-  output [15:0] led
+  input logic clk,
+  input logic rst,
+  input logic  [31:0] bus_rdata,
+  output logic [31:0] bus_addr,
+  output logic [31:0] bus_wdata,
+  output logic        bus_we,
+  output logic [15:0] led
 );
-wire [31:0]    rom_rdata;
-wire [31:0]    ram_rdata;
-wire [0:0]     ram_we;
-wire [31:0]    ram_wdata;
-wire [31:0]    rom_addr;
-wire [31:0]    ram_addr;
+logic [31:0]    rom_rdata;
+logic [31:0]    ram_rdata;
+logic [0:0]     ram_we;
+logic [31:0]    ram_wdata;
+logic [31:0]    rom_addr;
+logic [31:0]    ram_addr;
 
-wire [31:0]    ram_rdata_cpu;
+logic [31:0]    ram_rdata_cpu;
 
-wire bus_access;
-wire ram_access;
+logic bus_access;
+logic ram_access;
 
 assign bus_access = ((ram_addr & `QUAD_MASK) == `IO_BASE_ADDR) ? 1'b1 : 1'b0;  // 4th quadrant of addressing space for bus
 assign bus_we = ram_we & bus_access;
@@ -63,7 +63,7 @@ rom #(
 ) rom1 (
     .clk(clk),
     .addr(rom_addr[ROMAddrWidth - 1:0]),
-    .r_data(rom_rdata) // output is clocked so OK to input comb reg
+    .r_data(rom_rdata) // output logic is clocked so OK to input logic comb logic
 );
 
 

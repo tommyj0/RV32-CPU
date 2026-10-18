@@ -22,15 +22,15 @@
 
 module control_unit(
     // instruction opcode from fetch
-    input       [6:0]   opcode,
+    input logic       [6:0]   opcode,
     // asynch outputs
-    output reg          branch,
-    output reg          mem_read,
-    output reg          mem_to_reg,
-    output reg  [1:0]   alu_op, // tells the ALU control what format the instr is
-    output reg          mem_write,
-    output reg          alu_src,
-    output reg          reg_write
+    output logic          branch,
+    output logic          mem_read,
+    output logic          mem_to_reg,
+    output logic  [1:0]   alu_op, // tells the ALU control what format the instr is
+    output logic          mem_write,
+    output logic          alu_src,
+    output logic          reg_write
 );
 
 always@(*)

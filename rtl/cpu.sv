@@ -8,24 +8,24 @@
 
 
 module cpu(
-    input               clk,
-    input               rst,
-    input  [31:0]       rom_rdata,
-    input  [31:0]       ram_rdata,
-    output              ram_we,
-    output [31:0]       ram_wdata,
-    output [31:0]       rom_addr,
-    output [31:0]       ram_addr,
-    output [15:0]       led
+    input logic               clk,
+    input logic               rst,
+    input logic  [31:0]       rom_rdata,
+    input logic  [31:0]       ram_rdata,
+    output logic              ram_we,
+    output logic [31:0]       ram_wdata,
+    output logic [31:0]       rom_addr,
+    output logic [31:0]       ram_addr,
+    output logic [15:0]       led
 );
 
 // Instruction Fetch wires
-wire [31:0] PC_branch_mem_if;
+logic [31:0] PC_branch_mem_if;
 assign PC_branch_mem_if = 0; // TODO fix
-wire        ctrl_branch_mem_if;
+logic        ctrl_branch_mem_if;
 
-wire [31:0] PC_if_id;
-wire [31:0] instr_if_id;
+logic [31:0] PC_if_id;
+logic [31:0] instr_if_id;
 
 // Instruction Fetch instanciation
 instr_fetch u_instr_fetch(
@@ -41,31 +41,31 @@ assign instr_if_id = rom_rdata;
 assign rom_addr = PC_if_id;
 
 // Decode wires
-wire [31:0] rs1_id_exe;
-wire [31:0] rs2_id_exe;
-wire [31:0] PC_id_exe;
-wire [31:0] imm_id_exe;
-wire [4:0]  write_reg_wb_id;
-wire [31:0] write_data_wb_id;
-wire [0:0]  ctrl_write_reg_wb_id; // finish at id
+logic [31:0] rs1_id_exe;
+logic [31:0] rs2_id_exe;
+logic [31:0] PC_id_exe;
+logic [31:0] imm_id_exe;
+logic [4:0]  write_reg_wb_id;
+logic [31:0] write_data_wb_id;
+logic [0:0]  ctrl_write_reg_wb_id; // finish at id
 
-wire [4:0]  write_reg_id_exe;
+logic [4:0]  write_reg_id_exe;
 
-wire [0:0]  stall_id; // typically the first stall, will go to both EXE and IF
+logic [0:0]  stall_id; // typically the first stall, will go to both EXE and IF
 
 
 // ctrl wires
-wire [0:0]    ctrl_branch_id_exe; // finishes at instr_fetch
-wire [0:0]    ctrl_mem_read_id_exe; // finishes at mem_access
-wire [0:0]    ctrl_mem_to_reg_id_exe; // finish at wb
-wire [1:0]    ctrl_alu_op_id_exe; // finish at exe
-wire [0:0]    ctrl_mem_write_id_exe; // finish at mem
-wire [0:0]    ctrl_alu_src_id_exe; // finish at exe
-wire [0:0]    ctrl_write_reg_id_exe; // finish at id
+logic [0:0]    ctrl_branch_id_exe; // finishes at instr_fetch
+logic [0:0]    ctrl_mem_read_id_exe; // finishes at mem_access
+logic [0:0]    ctrl_mem_to_reg_id_exe; // finish at wb
+logic [1:0]    ctrl_alu_op_id_exe; // finish at exe
+logic [0:0]    ctrl_mem_write_id_exe; // finish at mem
+logic [0:0]    ctrl_alu_src_id_exe; // finish at exe
+logic [0:0]    ctrl_write_reg_id_exe; // finish at id
 
 // alu ctrl wires
-wire [2:0]    funct3_id_exe;
-wire [0:0]    funct7_5_id_exe;
+logic [2:0]    funct3_id_exe;
+logic [0:0]    funct7_5_id_exe;
 
 // Decode instanciation
 decode u_decode(
@@ -94,18 +94,18 @@ decode u_decode(
 );
 
 // Execute wires
-wire [31:0] alu_result_exe_mem;
-wire        zero_exe_mem;
-wire [31:0] PC_branch_exe_mem;
-wire [31:0] rs2_exe_mem;
-wire [4:0]  write_reg_exe_mem;
+logic [31:0] alu_result_exe_mem;
+logic        zero_exe_mem;
+logic [31:0] PC_branch_exe_mem;
+logic [31:0] rs2_exe_mem;
+logic [4:0]  write_reg_exe_mem;
 
 // ctrl wires
-wire [0:0]    ctrl_branch_exe_mem; // finishes at instr_fetch
-wire [0:0]    ctrl_mem_read_exe_mem; // finishes at mem_access
-wire [0:0]    ctrl_mem_to_reg_exe_mem; // finish at wb
-wire [0:0]    ctrl_mem_write_exe_mem; // finish at mem
-wire [0:0]    ctrl_write_reg_exe_mem; // finish at id
+logic [0:0]    ctrl_branch_exe_mem; // finishes at instr_fetch
+logic [0:0]    ctrl_mem_read_exe_mem; // finishes at mem_access
+logic [0:0]    ctrl_mem_to_reg_exe_mem; // finish at wb
+logic [0:0]    ctrl_mem_write_exe_mem; // finish at mem
+logic [0:0]    ctrl_write_reg_exe_mem; // finish at id
 
 
 // Execute instanciation
@@ -141,14 +141,14 @@ execute u_execute(
 );
 
 // Memory Access wires
-wire [31:0] r_data_mem_wb;
-wire [31:0] reg_out_mem_wb;
-wire [4:0]  write_reg_mem_wb;
+logic [31:0] r_data_mem_wb;
+logic [31:0] reg_out_mem_wb;
+logic [4:0]  write_reg_mem_wb;
 
 // ctrl wires
-// wire [0:0]    ctrl_branch_mem_if; // finishes at instr_fetch
-wire [0:0]    ctrl_mem_to_reg_mem_wb; // finish at wb
-wire [0:0]    ctrl_write_reg_mem_wb; // finish at id
+// logic [0:0]    ctrl_branch_mem_if; // finishes at instr_fetch
+logic [0:0]    ctrl_mem_to_reg_mem_wb; // finish at wb
+logic [0:0]    ctrl_write_reg_mem_wb; // finish at id
 
 // Memory Access instanciation
 mem_access u_mem_access(

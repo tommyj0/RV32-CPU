@@ -1,10 +1,12 @@
 `timescale 1ns / 1ps
 
+`include "alu_ops.vh"
+
 module alu_control(
-  input [2:0] funct3,
-  input [0:0] funct7_5,
-  input [1:0] ctrl_alu_op,
-  output reg [3:0] alu_ctrl
+  input logic [2:0] funct3,
+  input logic [0:0] funct7_5,
+  input logic [1:0] ctrl_alu_op,
+  output logic [3:0] alu_ctrl
 );
 
 

@@ -14,21 +14,21 @@ module top #
   parameter DISPLAY_SCALE=2
 )
 (
-  input clk,
-  input rst,
-  input [4:0] btns,
-  output [15:0] led,
-  output [11:0] colour_out,
-  output HS,
-  output VS
+  input logic clk,
+  input logic rst,
+  input logic [4:0] btns,
+  output logic [15:0] led,
+  output logic [11:0] colour_out,
+  output logic HS,
+  output logic VS
 );
 
 
 // I/O bus wires
-wire [31:0] bus_addr;
-wire [31:0] bus_rdata;
-wire [31:0] bus_wdata;
-wire        bus_we;
+logic [31:0] bus_addr;
+logic [31:0] bus_rdata;
+logic [31:0] bus_wdata;
+logic        bus_we;
 
 assign bus_rdata = 32'h0000_0000; // TODO
 
@@ -43,9 +43,9 @@ core core1 (
 );
     
 // VGA logic
-wire [11:0]         colour;
-wire [10:0]         x;
-wire [9:0]          y;
+logic [11:0]         colour;
+logic [10:0]         x;
+logic [9:0]          y;
 
 vga_driver  #
 (
@@ -65,7 +65,7 @@ vga_driver1
     .frame_trig(frame_trig)
 );
 
-wire vga_we;
+logic vga_we;
 
 assign vga_we = bus_addr == `VGA_ADDR ? 1'b1 : 1'b0; // TODO choose a range
 

@@ -3,12 +3,12 @@
 `include "alu_ops.vh"
 
 module alu(
-    input [31:0] in1,
-    input [31:0] in2,
-    input [3:0] alu_op,
-    output zero,
-    output reg [31:0] alu_result,
-    output reg overflow
+    input logic [31:0] in1,
+    input logic [31:0] in2,
+    input logic [3:0] alu_op,
+    output logic zero,
+    output logic [31:0] alu_result,
+    output logic overflow
 );
 
 assign zero = (alu_result == 'h0);

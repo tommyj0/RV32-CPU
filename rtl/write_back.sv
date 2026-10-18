@@ -21,17 +21,17 @@
 
 
 module write_back(
-    input clk,
-    input       [31:0]  r_data_mem_wb,
-    input       [31:0]  reg_out_mem_wb,
-    input       [4:0]   write_reg_mem_wb,
-    // input               ctrl_branch_mem_wb,
-    input               ctrl_mem_to_reg_mem_wb,
-    input               ctrl_write_reg_mem_wb,
-    output      [31:0]  write_data_wb_id,
-    output      [4:0]   write_reg_wb_id,
-    output      [0:0]   ctrl_write_reg_wb_id
-    // output reg  [0:0]   ctrl_branch_wb_if
+    input logic clk,
+    input logic       [31:0]  r_data_mem_wb,
+    input logic       [31:0]  reg_out_mem_wb,
+    input logic       [4:0]   write_reg_mem_wb,
+    // input logic         ctrl_branch_mem_wb,
+    input logic               ctrl_mem_to_reg_mem_wb,
+    input logic               ctrl_write_reg_mem_wb,
+    output logic      [31:0]  write_data_wb_id,
+    output logic      [4:0]   write_reg_wb_id,
+    output logic      [0:0]   ctrl_write_reg_wb_id
+    // output logic [0:0]   ctrl_branch_wb_if
 );
 
 assign write_data_wb_id = ctrl_mem_to_reg_mem_wb ? r_data_mem_wb : reg_out_mem_wb;   

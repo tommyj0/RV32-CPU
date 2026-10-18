@@ -1,75 +1,55 @@
 `timescale 1ns / 1ps
-//////////////////////////////////////////////////////////////////////////////////
-// Company: 
-// Engineer: 
-// 
-// Create Date: 03/06/2025 09:57:01 PM
-// Design Name: 
-// Module Name: decode
-// Project Name: 
-// Target Devices: 
-// Tool Versions: 
-// Description: 
-// 
-// Dependencies: 
-// 
-// Revision:
-// Revision 0.01 - File Created
-// Additional Comments:
-// 
-//////////////////////////////////////////////////////////////////////////////////
-
 `include "opcodes.vh"
 
 // TODO: propagate the stalled instruction, NOP on every subsequent cycle
 
 module decode(
-    input               clk,
-    input               rst,
-    input [31:0]        instr_if_id,
-    input [31:0]        PC_if_id,
-    input [4:0]         write_reg_wb_id, // from wb
-    input [31:0]        write_data_wb_id, // from wb
-    input               write_reg_enable_wb_id, // from wb
-    output reg [31:0]   rs1_id_exe,
-    output reg [31:0]   rs2_id_exe,
-    output reg [31:0]   PC_id_exe,
-    output reg [31:0]   imm_id_exe,
-    output reg [4:0]    write_reg_id_exe,
-    output reg [0:0]    ctrl_branch_id_exe,
-    output reg [0:0]    ctrl_mem_read_id_exe,
-    output reg [0:0]    ctrl_mem_to_reg_id_exe,
-    output reg [1:0]    ctrl_alu_op_id_exe,
-    output reg [0:0]    ctrl_mem_write_id_exe,
-    output reg [0:0]    ctrl_alu_src_id_exe,
-    output reg [0:0]    ctrl_write_reg_id_exe,
-    output reg [2:0]    funct3_id_exe,
-    output reg [0:0]    funct7_5_id_exe,
-    output reg [0:0]    stall_out
+    input logic               clk,
+    input logic               rst,
+    input logic [31:0]        instr_if_id,
+    input logic [31:0]        PC_if_id,
+    input logic [4:0]         write_reg_wb_id, // from wb
+    input logic [31:0]        write_data_wb_id, // from wb
+    input logic               write_reg_enable_wb_id, // from wb
+    output logic [31:0]   rs1_id_exe,
+    output logic [31:0]   rs2_id_exe,
+    output logic [31:0]   PC_id_exe,
+    output logic [31:0]   imm_id_exe,
+    output logic [4:0]    write_reg_id_exe,
+    output logic [0:0]    ctrl_branch_id_exe,
+    output logic [0:0]    ctrl_mem_read_id_exe,
+    output logic [0:0]    ctrl_mem_to_reg_id_exe,
+    output logic [1:0]    ctrl_alu_op_id_exe,
+    output logic [0:0]    ctrl_mem_write_id_exe,
+    output logic [0:0]    ctrl_alu_src_id_exe,
+    output logic [0:0]    ctrl_write_reg_id_exe,
+    output logic [2:0]    funct3_id_exe,
+    output logic [0:0]    funct7_5_id_exe,
+    output logic [0:0]    stall_out
 );
 
 localparam [31:0] STALL_INSTRUCTION =  32'h00000013;  // addi x0,x0,0
 
 
-wire [31:0]     in_instruction;
-wire [31:0]     out_instruction;
+logic [31:0]     in_instruction;
+logic [31:0]     out_instruction;
 
-wire [31:0]     read_data1;
-wire [31:0]     read_data2;
+logic [31:0]     read_data1;
+logic [31:0]     read_data2;
 
 // Instruction Segments
-wire [6:0]      opcode;
-wire [4:0]      rs1;
-wire [4:0]      rs2;
-wire [4:0]      rd;
-wire [2:0]      funct3;
+logic [6:0]      opcode;
+logic [4:0]      rs1;
+logic [4:0]      rs2;
+logic [4:0]      rd;
+logic [2:0]      funct3;
 
-wire [6:0]      out_opcode;
-wire [4:0]      out_rs1;
-wire [4:0]      out_rs2;
-wire [4:0]      out_rd;
-wire [2:0]      out_funct3;
-reg Next_stall;
+logic [6:0]      out_opcode;
+logic [4:0]      out_rs1;
+logic [4:0]      out_rs2;
+logic [4:0]      out_rd;
+logic [2:0]      out_funct3;
+logic Next_stall;
 
 
 assign in_instruction = instr_if_id;
@@ -88,16 +68,16 @@ assign out_rd       = out_instruction[11:7];
 assign out_funct3   = out_instruction[14:12];
 
 
-wire [0:0] ctrl_branch_id_exe_next;
-wire [0:0] ctrl_mem_read_id_exe_next;
-wire [0:0] ctrl_mem_to_reg_id_exe_next;
-wire [1:0] ctrl_alu_op_id_exe_next;
-wire [0:0] ctrl_mem_write_id_exe_next;
-wire [0:0] ctrl_alu_src_id_exe_next;
-wire [0:0] ctrl_write_reg_id_exe_next;
+logic [0:0] ctrl_branch_id_exe_next;
+logic [0:0] ctrl_mem_read_id_exe_next;
+logic [0:0] ctrl_mem_to_reg_id_exe_next;
+logic [1:0] ctrl_alu_op_id_exe_next;
+logic [0:0] ctrl_mem_write_id_exe_next;
+logic [0:0] ctrl_alu_src_id_exe_next;
+logic [0:0] ctrl_write_reg_id_exe_next;
 
-reg [4:0]       read_reg1;
-reg [4:0]       read_reg2;
+logic [4:0]       read_reg1;
+logic [4:0]       read_reg2;
 
 reg_file u_reg_file (
     .clk(clk),
@@ -127,13 +107,13 @@ control_unit u_control_unit(
 
 localparam WRITTEN_REGS_BUF_LEN = 4;
 
-reg [4:0]       Next_written_regs[0:WRITTEN_REGS_BUF_LEN-1];
-reg [4:0]       written_regs[0:WRITTEN_REGS_BUF_LEN-1];
+logic [4:0]       Next_written_regs[0:WRITTEN_REGS_BUF_LEN-1];
+logic [4:0]       written_regs[0:WRITTEN_REGS_BUF_LEN-1];
 
 localparam JUMPS_BUF_LEN = 6;
 
-reg [0:0]       Next_jumps[0:JUMPS_BUF_LEN-1];
-reg [0:0]       jumps[0:JUMPS_BUF_LEN-1];
+logic [0:0]       Next_jumps[0:JUMPS_BUF_LEN-1];
+logic [0:0]       jumps[0:JUMPS_BUF_LEN-1];
 
 // NB: written_regs buffer saves a bit by storing x0 as the written reg when no regs are written.
 //     this is done as x0 can't be written to and to avoid undefined values in the buf. 
@@ -158,8 +138,8 @@ begin
 end
 
 
-reg [4:0]       in_read_reg1;
-reg [4:0]       in_read_reg2;
+logic [4:0]       in_read_reg1;
+logic [4:0]       in_read_reg2;
 
 always@(*)
 begin
@@ -233,7 +213,7 @@ begin
 end
 
 // Immediate Generation
-reg  [31:0]     Next_imm;
+logic  [31:0]     Next_imm;
 
 always@(*)
 begin

@@ -11,15 +11,15 @@ module vga_driver #
 
 )
 (
-    input clk,
-    input rst,
-    input  [11:0] colour_in,
-    output reg [11:0] colour_out,
-    output reg [10:0] x,
-    output reg [9:0] y,
-    output reg HS,
-    output reg VS,
-    output frame_trig
+    input logic clk,
+    input logic rst,
+    input logic  [11:0] colour_in,
+    output logic [11:0] colour_out,
+    output logic [10:0] x,
+    output logic [9:0] y,
+    output logic HS,
+    output logic VS,
+    output logic frame_trig
 );
 
 
@@ -55,8 +55,8 @@ parameter Vert_BackPorchEnd = Vert_SyncPulseEnd + 'd23;
 //parameter Vert_SyncPulseEnd = Vert_FrontPorchEnd + 'd3;     
 //parameter Vert_BackPorchEnd = Vert_SyncPulseEnd + 'd30;    
 
-wire [10:0] HorzCount; 
-wire [9:0] VertCount; 
+logic [10:0] HorzCount; 
+logic [9:0] VertCount; 
 
 // set clock speed
 counter # (.WIDTH(1), .MAX(1)) counter_25 (
@@ -83,8 +83,8 @@ counter # (.WIDTH(10), .MAX(Vert_BackPorchEnd - 1)) counter_vert (
 
 // clock HS and VS so they're synched with colour_out (takes colour a cycle to go thru frame_buffer BRAM)
 
-reg HS_dly;
-reg VS_dly;
+logic HS_dly;
+logic VS_dly;
 always@(posedge clk) begin
     HS <= HS_dly;
     VS <= VS_dly;
@@ -99,8 +99,8 @@ always@(posedge clk) begin
 end
 
 
-reg draw_window_dly;
-reg draw_window_dly_reg;
+logic draw_window_dly;
+logic draw_window_dly_reg;
 always@(*) begin
     if (HorzCount < Horz_Visible && VertCount < Vert_Visible) begin
         draw_window_dly = 1'b1;

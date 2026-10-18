@@ -9,16 +9,16 @@ module rom #
     parameter INIT_FILE = "rom.mem"
 )
 (
-    input clk,
-    input [ROMAddrWidth - 1:0] addr, // byte addressed
-    output reg [ROMWordWidth - 1:0] r_data
+    input logic clk,
+    input logic [ROMAddrWidth - 1:0] addr, // byte addressed
+    output logic [ROMWordWidth - 1:0] r_data
 
 );
 
 
-wire [ROMAddrWidth - 3:0] addr_4b; // 4 byte addressed
+logic [ROMAddrWidth - 3:0] addr_4b; // 4 byte addressed
 
-reg [ROMWordWidth - 1:0] mem [0:2**(ROMAddrWidth - $clog2(ROMWordWidth >> 3)) - 1];
+logic [ROMWordWidth - 1:0] mem [0:2**(ROMAddrWidth - $clog2(ROMWordWidth >> 3)) - 1];
 
 assign addr_4b = addr[ROMAddrWidth - 1:2];
 

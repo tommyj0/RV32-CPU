@@ -16,12 +16,12 @@ module counter(
 parameter WIDTH = 4;
 parameter MAX = 9;
 
-input clk;
-input en;
-input rst;
+input logic clk;
+input logic en;
+input logic rst;
 
-output reg [WIDTH - 1:0] count;
-output reg trig;
+output logic [WIDTH - 1:0] count;
+output logic trig;
 
 always@(posedge clk) begin
     if (rst)

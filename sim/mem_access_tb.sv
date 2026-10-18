@@ -1,16 +1,16 @@
 
 module mem_access_tb();
-    reg               clk;
-    reg               mem_read_exe_mem;
-    reg               mem_write_exe_mem;
-    reg               mem_to_reg_exe_mem;
-    reg       [31:0]  alu_out_exe_mem;
-    reg       [31:0]  w_data_exe_mem;
-    reg       [4:0]   write_reg_exe_mem;
-    wire      [31:0]  r_data_mem_wb;
-    wire      [31:0]  reg_out_mem_wb;
-    wire              mem_to_reg_mem_wb;
-    wire      [4:0]   write_reg_mem_wb;
+    logic               clk;
+    logic               mem_read_exe_mem;
+    logic               mem_write_exe_mem;
+    logic               mem_to_reg_exe_mem;
+    logic       [31:0]  alu_out_exe_mem;
+    logic       [31:0]  w_data_exe_mem;
+    logic       [4:0]   write_reg_exe_mem;
+    logic      [31:0]  r_data_mem_wb;
+    logic      [31:0]  reg_out_mem_wb;
+    logic              mem_to_reg_mem_wb;
+    logic      [4:0]   write_reg_mem_wb;
 
 mem_access mem_access_inst
 (

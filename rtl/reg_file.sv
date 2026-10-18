@@ -21,17 +21,17 @@
 
 
 module reg_file(
-    input           clk,
-    input [4:0]     read_reg1,
-    input [4:0]     read_reg2,
-    input [4:0]     write_reg,
-    input [31:0]    write_data,
-    input           write_reg_enable,
-    output [31:0]   read_data1,
-    output [31:0]   read_data2
+    input logic           clk,
+    input logic [4:0]     read_reg1,
+    input logic [4:0]     read_reg2,
+    input logic [4:0]     write_reg,
+    input logic [31:0]    write_data,
+    input logic           write_reg_enable,
+    output logic [31:0]   read_data1,
+    output logic [31:0]   read_data2
 );
 
-reg [31:0] regs [1:31];
+logic [31:0] regs [1:31];
 
 assign read_data1 = (read_reg1 == 'h0) ? 'h0 : regs[read_reg1];
 assign read_data2 = (read_reg2 == 'h0) ? 'h0 : regs[read_reg2];

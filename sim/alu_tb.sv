@@ -5,18 +5,18 @@
 module alu_tb();
 
 localparam int MAX32B = 32'hFFFFFFFF;
-reg [31:0]  in1 = 'b0;
-reg [31:0]  in2 = 'b0;
-reg [3:0]   in_select = 'b0;
+logic [31:0]  in1 = 'b0;
+logic [31:0]  in2 = 'b0;
+logic [3:0]   in_select = 'b0;
 
-wire        zero;
-wire [31:0] alu_result;
-wire        overflow;
+logic        zero;
+logic [31:0] alu_result;
+logic        overflow;
 
 
 
 task automatic run_op_tests();
-  input [3:0] alu_op;
+  input logic [3:0] alu_op;
   integer i;
   begin
     #10;
