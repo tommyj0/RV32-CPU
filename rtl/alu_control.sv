@@ -3,22 +3,22 @@
 `include "alu_ops.vh"
 
 module alu_control(
-  input logic [2:0] funct3,
-  input logic [0:0] funct7_5,
-  input logic [1:0] ctrl_alu_op,
+  input logic [2:0] funct3_i,
+  input logic [0:0] funct7_5_i,
+  input logic [1:0] ctrl_alu_op_i,
   output logic [3:0] alu_ctrl
 );
 
 
 always @ (*)
 begin
-  casez (ctrl_alu_op)
+  casez (ctrl_alu_op_i)
     `ALU_OP_MATH:
     begin
-      if (funct3[1:0] == 2'b01)
-        alu_ctrl = {funct7_5,funct3};
+      if (funct3_i[1:0] == 2'b01)
+        alu_ctrl = {funct7_5_i,funct3_i};
       else
-        alu_ctrl = {1'b0,funct3};
+        alu_ctrl = {1'b0,funct3_i};
     end
     `ALU_OP_BEQ: alu_ctrl = `SUB;
     `ALU_OP_MEM: alu_ctrl = `ADD;

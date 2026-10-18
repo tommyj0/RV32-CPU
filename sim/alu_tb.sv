@@ -52,9 +52,9 @@ initial begin
 end
 
 alu alu_inst(
-    .in1(in1),
-    .in2(in2),
-    .alu_op(in_select),
+    .in1_i(in1),
+    .in2_i(in2),
+    .alu_op_i(in_select),
     .zero(zero),
     .alu_result(alu_result),
     .overflow(overflow)

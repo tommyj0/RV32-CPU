@@ -4,28 +4,28 @@
 // TODO: propagate the stalled instruction, NOP on every subsequent cycle
 
 module decode(
-    input logic               clk,
-    input logic               rst,
-    input logic [31:0]        instr_if_id,
-    input logic [31:0]        PC_if_id,
-    input logic [4:0]         write_reg_wb_id, // from wb
-    input logic [31:0]        write_data_wb_id, // from wb
-    input logic               write_reg_enable_wb_id, // from wb
-    output logic [31:0]   rs1_id_exe,
-    output logic [31:0]   rs2_id_exe,
-    output logic [31:0]   PC_id_exe,
-    output logic [31:0]   imm_id_exe,
-    output logic [4:0]    write_reg_id_exe,
-    output logic [0:0]    ctrl_branch_id_exe,
-    output logic [0:0]    ctrl_mem_read_id_exe,
-    output logic [0:0]    ctrl_mem_to_reg_id_exe,
-    output logic [1:0]    ctrl_alu_op_id_exe,
-    output logic [0:0]    ctrl_mem_write_id_exe,
-    output logic [0:0]    ctrl_alu_src_id_exe,
-    output logic [0:0]    ctrl_write_reg_id_exe,
-    output logic [2:0]    funct3_id_exe,
-    output logic [0:0]    funct7_5_id_exe,
-    output logic [0:0]    stall_out
+    input logic               clk_i,
+    input logic               rst_i,
+    input logic [31:0]        instr_if_id_i,
+    input logic [31:0]        PC_if_id_i,
+    input logic [4:0]         write_reg_wb_id_i, // from wb
+    input logic [31:0]        write_data_wb_id_i, // from wb
+    input logic               write_reg_enable_wb_id_i, // from wb
+    output logic [31:0]   rs1_id_exe_q,
+    output logic [31:0]   rs2_id_exe_q,
+    output logic [31:0]   PC_id_exe_q,
+    output logic [31:0]   imm_id_exe_q,
+    output logic [4:0]    write_reg_id_exe_q,
+    output logic [0:0]    ctrl_branch_id_exe_q,
+    output logic [0:0]    ctrl_mem_read_id_exe_q,
+    output logic [0:0]    ctrl_mem_to_reg_id_exe_q,
+    output logic [1:0]    ctrl_alu_op_id_exe_q,
+    output logic [0:0]    ctrl_mem_write_id_exe_q,
+    output logic [0:0]    ctrl_alu_src_id_exe_q,
+    output logic [0:0]    ctrl_write_reg_id_exe_q,
+    output logic [2:0]    funct3_id_exe_q,
+    output logic [0:0]    funct7_5_id_exe_q,
+    output logic [0:0]    stall_out_q
 );
 
 localparam [31:0] STALL_INSTRUCTION =  32'h00000013;  // addi x0,x0,0
@@ -38,11 +38,11 @@ logic [31:0]     read_data1;
 logic [31:0]     read_data2;
 
 // Instruction Segments
-logic [6:0]      opcode;
+logic [6:0]      opcode_i;
 logic [4:0]      rs1;
 logic [4:0]      rs2;
 logic [4:0]      rd;
-logic [2:0]      funct3;
+logic [2:0]      funct3_i;
 
 logic [6:0]      out_opcode;
 logic [4:0]      out_rs1;
@@ -52,14 +52,14 @@ logic [2:0]      out_funct3;
 logic Next_stall;
 
 
-assign in_instruction = instr_if_id;
-assign out_instruction = stall_out ? STALL_INSTRUCTION : instr_if_id; // change on synchronous stall
+assign in_instruction = instr_if_id_i;
+assign out_instruction = stall_out_q ? STALL_INSTRUCTION : instr_if_id_i; // change on synchronous stall_i
 
-assign opcode   = in_instruction[6:0];
+assign opcode_i   = in_instruction[6:0];
 assign rs1      = in_instruction[19:15];
 assign rs2      = in_instruction[24:20];
 assign rd       = in_instruction[11:7];
-assign funct3   = in_instruction[14:12];
+assign funct3_i   = in_instruction[14:12];
 
 assign out_opcode   = out_instruction[6:0];
 assign out_rs1      = out_instruction[19:15];
@@ -76,16 +76,16 @@ logic [0:0] ctrl_mem_write_id_exe_next;
 logic [0:0] ctrl_alu_src_id_exe_next;
 logic [0:0] ctrl_write_reg_id_exe_next;
 
-logic [4:0]       read_reg1;
-logic [4:0]       read_reg2;
+logic [4:0]       read_reg1_i;
+logic [4:0]       read_reg2_i;
 
 reg_file u_reg_file (
-    .clk(clk),
-    .read_reg1(read_reg1),
-    .read_reg2(read_reg2),
-    .write_reg(write_reg_wb_id),
-    .write_data(write_data_wb_id),
-    .write_reg_enable(write_reg_enable_wb_id),
+    .clk_i(clk_i),
+    .read_reg1_i(read_reg1_i),
+    .read_reg2_i(read_reg2_i),
+    .write_reg_i(write_reg_wb_id_i),
+    .write_data_i(write_data_wb_id_i),
+    .write_reg_enable_i(write_reg_enable_wb_id_i),
     .read_data1(read_data1),
     .read_data2(read_data2)
 );
@@ -93,7 +93,7 @@ reg_file u_reg_file (
 
 control_unit u_control_unit(
     // inputs
-    .opcode(out_opcode),
+    .opcode_i(out_opcode),
     // outputs
     .branch(ctrl_branch_id_exe_next), //  BRANCH?
     .mem_read(ctrl_mem_read_id_exe_next), // READ FROM MEM?
@@ -108,30 +108,30 @@ control_unit u_control_unit(
 localparam WRITTEN_REGS_BUF_LEN = 4;
 
 logic [4:0]       Next_written_regs[0:WRITTEN_REGS_BUF_LEN-1];
-logic [4:0]       written_regs[0:WRITTEN_REGS_BUF_LEN-1];
+logic [4:0]       written_regs_q[0:WRITTEN_REGS_BUF_LEN-1];
 
 localparam JUMPS_BUF_LEN = 6;
 
 logic [0:0]       Next_jumps[0:JUMPS_BUF_LEN-1];
-logic [0:0]       jumps[0:JUMPS_BUF_LEN-1];
+logic [0:0]       jumps_q[0:JUMPS_BUF_LEN-1];
 
-// NB: written_regs buffer saves a bit by storing x0 as the written reg when no regs are written.
+// NB: written_regs_q buffer saves a bit by storing x0 as the written reg when no regs_q are written.
 //     this is done as x0 can't be written to and to avoid undefined values in the buf. 
 integer j;
 always@(*)
 begin
         Next_written_regs[0] = 'h0; // default to x0
-        // shift written regs up by one, effectively aging the other registers by one cycle
+        // shift written regs_q up by one, effectively aging the other registers by one cycle
         for (j = 0; j < WRITTEN_REGS_BUF_LEN-1; j = j + 1)
-            Next_written_regs[j+1] = written_regs[j];
-        if (stall_out == 0 && ctrl_write_reg_id_exe_next)
+            Next_written_regs[j+1] = written_regs_q[j];
+        if (stall_out_q == 0 && ctrl_write_reg_id_exe_next)
             Next_written_regs[0] = rd;
-        // for jumps
+        // for jumps_q
         Next_jumps[0] = 'h0;
         for (j = 0; j < JUMPS_BUF_LEN; j = j + 1)
-            Next_jumps[j+1] = jumps[j];
+            Next_jumps[j+1] = jumps_q[j];
         Next_jumps[0] = 0;
-        if (stall_out == 0 && (opcode == `JALR || opcode == `JAL || opcode == `BRANCH))
+        if (stall_out_q == 0 && (opcode_i == `JALR || opcode_i == `JAL || opcode_i == `BRANCH))
             Next_jumps[0] = 1;
           
 
@@ -143,7 +143,7 @@ logic [4:0]       in_read_reg2;
 
 always@(*)
 begin
-    case (opcode)
+    case (opcode_i)
         `JALR,
         `MATHI,
         `LOAD:
@@ -174,25 +174,25 @@ begin
         `MATHI,
         `LOAD:
         begin
-            read_reg1 = out_rs1;
-            read_reg2 = 'h0;
+            read_reg1_i = out_rs1;
+            read_reg2_i = 'h0;
         end
         `LUI,
         `AUIPC:
         begin
-            read_reg1 = 'h0;
-            read_reg2 = 'h0;
+            read_reg1_i = 'h0;
+            read_reg2_i = 'h0;
         end
         default:
         begin
-            read_reg1 = out_rs1;
-            read_reg2 = out_rs2;
+            read_reg1_i = out_rs1;
+            read_reg2_i = out_rs2;
         end
     endcase
 end
 
 // STALL LOGIC
-// logic that determines if the following cycle should be stall based on history buffers
+// logic that determines if the following cycle should be stall_i based on history buffers
 integer k;
 always@(*)
 begin
@@ -244,51 +244,51 @@ end
 
 
 integer i;
-always@(posedge clk)
+always@(posedge clk_i)
 begin
-    if (rst)
+    if (rst_i)
     begin
-        rs1_id_exe <= 'h0;
-        rs2_id_exe <= 'h0;
-        PC_id_exe <= 'h0;
-        imm_id_exe <= 'h0;
-        write_reg_id_exe <= 'h0;
-        ctrl_branch_id_exe <= 'h0;
-        ctrl_mem_read_id_exe <= 'h0;
-        ctrl_mem_to_reg_id_exe <= 'h0;
-        ctrl_alu_op_id_exe <= 'h0;
-        ctrl_mem_write_id_exe <= 'h0;
-        ctrl_alu_src_id_exe <= 'h0;
-        ctrl_write_reg_id_exe <= 'h0;
-        funct3_id_exe <= 'h0;
-        funct7_5_id_exe <= 'h0;
-        stall_out <= 'h0;
+        rs1_id_exe_q <= 'h0;
+        rs2_id_exe_q <= 'h0;
+        PC_id_exe_q <= 'h0;
+        imm_id_exe_q <= 'h0;
+        write_reg_id_exe_q <= 'h0;
+        ctrl_branch_id_exe_q <= 'h0;
+        ctrl_mem_read_id_exe_q <= 'h0;
+        ctrl_mem_to_reg_id_exe_q <= 'h0;
+        ctrl_alu_op_id_exe_q <= 'h0;
+        ctrl_mem_write_id_exe_q <= 'h0;
+        ctrl_alu_src_id_exe_q <= 'h0;
+        ctrl_write_reg_id_exe_q <= 'h0;
+        funct3_id_exe_q <= 'h0;
+        funct7_5_id_exe_q <= 'h0;
+        stall_out_q <= 'h0;
         for (i = 0; i < WRITTEN_REGS_BUF_LEN; i = i + 1)
-            written_regs[i] = 'h0;
+            written_regs_q[i] = 'h0;
         for (i = 0; i < JUMPS_BUF_LEN; i = i + 1)
-            jumps[i] = 'h0;
+            jumps_q[i] = 'h0;
     end
     else
     begin
-        rs1_id_exe <= read_data1;
-        rs2_id_exe <= read_data2;
-        PC_id_exe <= PC_if_id;
-        imm_id_exe <= Next_imm;
-        write_reg_id_exe <= rd;
-        ctrl_branch_id_exe <= ctrl_branch_id_exe_next;
-        ctrl_mem_read_id_exe <= ctrl_mem_read_id_exe_next;
-        ctrl_mem_to_reg_id_exe <= ctrl_mem_to_reg_id_exe_next;
-        ctrl_alu_op_id_exe <= ctrl_alu_op_id_exe_next;
-        ctrl_mem_write_id_exe <= ctrl_mem_write_id_exe_next;
-        ctrl_alu_src_id_exe <= ctrl_alu_src_id_exe_next;
-        ctrl_write_reg_id_exe <= ctrl_write_reg_id_exe_next;
-        funct3_id_exe <= out_funct3;
-        funct7_5_id_exe <= out_instruction[30];
-        stall_out = Next_stall;
+        rs1_id_exe_q <= read_data1;
+        rs2_id_exe_q <= read_data2;
+        PC_id_exe_q <= PC_if_id_i;
+        imm_id_exe_q <= Next_imm;
+        write_reg_id_exe_q <= rd;
+        ctrl_branch_id_exe_q <= ctrl_branch_id_exe_next;
+        ctrl_mem_read_id_exe_q <= ctrl_mem_read_id_exe_next;
+        ctrl_mem_to_reg_id_exe_q <= ctrl_mem_to_reg_id_exe_next;
+        ctrl_alu_op_id_exe_q <= ctrl_alu_op_id_exe_next;
+        ctrl_mem_write_id_exe_q <= ctrl_mem_write_id_exe_next;
+        ctrl_alu_src_id_exe_q <= ctrl_alu_src_id_exe_next;
+        ctrl_write_reg_id_exe_q <= ctrl_write_reg_id_exe_next;
+        funct3_id_exe_q <= out_funct3;
+        funct7_5_id_exe_q <= out_instruction[30];
+        stall_out_q = Next_stall;
         for (i = 0; i < WRITTEN_REGS_BUF_LEN; i = i + 1)
-            written_regs[i] = Next_written_regs[i];
+            written_regs_q[i] = Next_written_regs[i];
         for (i = 0; i < JUMPS_BUF_LEN-1; i = i + 1) 
-            jumps[i] = Next_jumps[i];
+            jumps_q[i] = Next_jumps[i];
     end
 end
 

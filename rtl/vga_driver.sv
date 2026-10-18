@@ -11,15 +11,15 @@ module vga_driver #
 
 )
 (
-    input logic clk,
-    input logic rst,
-    input logic  [11:0] colour_in,
-    output logic [11:0] colour_out,
+    input logic clk_i,
+    input logic rst_i,
+    input logic  [11:0] colour_in_i,
+    output logic [11:0] colour_out_q,
     output logic [10:0] x,
     output logic [9:0] y,
-    output logic HS,
-    output logic VS,
-    output logic frame_trig
+    output logic HS_q,
+    output logic VS_q,
+    output logic frame_trig_q
 );
 
 
@@ -55,76 +55,76 @@ parameter Vert_BackPorchEnd = Vert_SyncPulseEnd + 'd23;
 //parameter Vert_SyncPulseEnd = Vert_FrontPorchEnd + 'd3;     
 //parameter Vert_BackPorchEnd = Vert_SyncPulseEnd + 'd30;    
 
-logic [10:0] HorzCount; 
-logic [9:0] VertCount; 
+logic [10:0] HorzCount_q; 
+logic [9:0] VertCount_q; 
 
 // set clock speed
 counter # (.WIDTH(1), .MAX(1)) counter_25 (
-    .clk(clk),
-    .rst(rst),
-    .en(1'b1),
-    .trig(Trig_vga)
+    .clk_i(clk_i),
+    .rst_i(rst_i),
+    .en_i(1'b1),
+    .trig_q(Trig_vga_q)
 
 );
 counter # (.WIDTH(11), .MAX(Horz_BackPorchEnd - 1)) counter_horz (
-    .clk(clk),
-    .rst(rst),
-    .en(Trig_vga),
-    .trig(Trig_Horz),
-    .count(HorzCount)
+    .clk_i(clk_i),
+    .rst_i(rst_i),
+    .en_i(Trig_vga_q),
+    .trig_q(Trig_Horz_q),
+    .count_q(HorzCount_q)
 );
 counter # (.WIDTH(10), .MAX(Vert_BackPorchEnd - 1)) counter_vert (
-    .clk(clk),
-    .rst(rst),
-    .en(Trig_Horz),
-    .trig(frame_trig),
-    .count(VertCount)
+    .clk_i(clk_i),
+    .rst_i(rst_i),
+    .en_i(Trig_Horz_q),
+    .trig_q(frame_trig_q),
+    .count_q(VertCount_q)
 );
 
-// clock HS and VS so they're synched with colour_out (takes colour a cycle to go thru frame_buffer BRAM)
+// clock HS_q and VS_q so they're synched with colour_out_q (takes colour a cycle to go thru frame_buffer_q BRAM)
 
-logic HS_dly;
-logic VS_dly;
-always@(posedge clk) begin
-    HS <= HS_dly;
-    VS <= VS_dly;
-    if (HorzCount >= Horz_FrontPorchEnd && HorzCount < Horz_SyncPulseEnd)
-        HS_dly <= 1'b0;
+logic HS_dly_q;
+logic VS_dly_q;
+always@(posedge clk_i) begin
+    HS_q <= HS_dly_q;
+    VS_q <= VS_dly_q;
+    if (HorzCount_q >= Horz_FrontPorchEnd && HorzCount_q < Horz_SyncPulseEnd)
+        HS_dly_q <= 1'b0;
     else
-        HS_dly <= 1'b1;
-    if (VertCount >= Vert_FrontPorchEnd && VertCount < Vert_SyncPulseEnd)
-        VS_dly <= 1'b0;
+        HS_dly_q <= 1'b1;
+    if (VertCount_q >= Vert_FrontPorchEnd && VertCount_q < Vert_SyncPulseEnd)
+        VS_dly_q <= 1'b0;
     else
-        VS_dly <= 1'b1;
+        VS_dly_q <= 1'b1;
 end
 
 
 logic draw_window_dly;
-logic draw_window_dly_reg;
+logic draw_window_dly_reg_q;
 always@(*) begin
-    if (HorzCount < Horz_Visible && VertCount < Vert_Visible) begin
+    if (HorzCount_q < Horz_Visible && VertCount_q < Vert_Visible) begin
         draw_window_dly = 1'b1;
-        x = HorzCount;
-        y = VertCount;
+        x = HorzCount_q;
+        y = VertCount_q;
     end
     else begin
         draw_window_dly = 1'b0;
         x = 'b0;
         y = 'b0;
     end
-    // if (draw_window_dly_reg) // wait for correct colour
-    //   colour_out = colour_in;
+    // if (draw_window_dly_reg_q) // wait for correct colour
+    //   colour_out_q = colour_in_i;
     // else
-    //   colour_out = 'h0;
+    //   colour_out_q = 'h0;
 end
 
-always@(posedge clk) begin
-  // wait for colour_in to be available
-  draw_window_dly_reg <= draw_window_dly;
-  if (draw_window_dly_reg)
-    colour_out <= colour_in;
+always@(posedge clk_i) begin
+  // wait for colour_in_i to be available
+  draw_window_dly_reg_q <= draw_window_dly;
+  if (draw_window_dly_reg_q)
+    colour_out_q <= colour_in_i;
   else
-    colour_out <= 'b0;
+    colour_out_q <= 'b0;
 end
 
 endmodule

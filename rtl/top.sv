@@ -14,9 +14,9 @@ module top #
   parameter DISPLAY_SCALE=2
 )
 (
-  input logic clk,
-  input logic rst,
-  input logic [4:0] btns,
+  input logic clk_i,
+  input logic rst_i,
+  input logic [4:0] btns_i,
   output logic [15:0] led,
   output logic [11:0] colour_out,
   output logic HS,
@@ -26,16 +26,16 @@ module top #
 
 // I/O bus wires
 logic [31:0] bus_addr;
-logic [31:0] bus_rdata;
+logic [31:0] bus_rdata_i;
 logic [31:0] bus_wdata;
 logic        bus_we;
 
-assign bus_rdata = 32'h0000_0000; // TODO
+assign bus_rdata_i = 32'h0000_0000; // TODO
 
 core core1 (
-  .clk(clk),
-  .rst(rst),
-  .bus_rdata(bus_rdata),
+  .clk_i(clk_i),
+  .rst_i(rst_i),
+  .bus_rdata_i(bus_rdata_i),
   .bus_addr(bus_addr),
   .bus_wdata(bus_wdata),
   .bus_we(bus_we),
@@ -46,6 +46,7 @@ core core1 (
 logic [11:0]         colour;
 logic [10:0]         x;
 logic [9:0]          y;
+logic                frame_trig_q;
 
 vga_driver  #
 (
@@ -54,20 +55,20 @@ vga_driver  #
 )
 vga_driver1
 (
-    .clk(clk),
-    .rst(rst),
-    .colour_in(colour),
-    .colour_out(colour_out),
+    .clk_i(clk_i),
+    .rst_i(rst_i),
+    .colour_in_i(colour),
+    .colour_out_q(colour_out),
     .x(x),
     .y(y),
-    .HS(HS),
-    .VS(VS),
-    .frame_trig(frame_trig)
+    .HS_q(HS),
+    .VS_q(VS),
+    .frame_trig_q(frame_trig_q)
 );
 
-logic vga_we;
+logic vga_we_i;
 
-assign vga_we = bus_addr == `VGA_ADDR ? 1'b1 : 1'b0; // TODO choose a range
+assign vga_we_i = bus_addr == `VGA_ADDR ? 1'b1 : 1'b0; // TODO choose a range
 
 vga_memory  #
 (
@@ -76,15 +77,15 @@ vga_memory  #
 )
 vga_memory1
 (
-    .clk(clk),
-    .rst(rst),
-    // .colour_in(12'hF0F),
+    .clk_i(clk_i),
+    .rst_i(rst_i),
+    // .colour_in_i(12'hF0F),
     .colour_out(colour),
-    .x(x),
-    .y(y),
-    .bus_wdata(bus_wdata),
-    .vga_we(vga_we),
-    .frame_trig(frame_trig)
+    .x_i(x),
+    .y_i(y),
+    .bus_wdata_i(bus_wdata),
+    .vga_we_i(vga_we_i),
+    .frame_trig_i(frame_trig_q)
 );
 
 endmodule

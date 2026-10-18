@@ -21,25 +21,25 @@
 
 
 module write_back(
-    input logic clk,
-    input logic       [31:0]  r_data_mem_wb,
-    input logic       [31:0]  reg_out_mem_wb,
-    input logic       [4:0]   write_reg_mem_wb,
-    // input logic         ctrl_branch_mem_wb,
-    input logic               ctrl_mem_to_reg_mem_wb,
-    input logic               ctrl_write_reg_mem_wb,
+    input logic clk_i,
+    input logic       [31:0]  r_data_mem_wb_i,
+    input logic       [31:0]  reg_out_mem_wb_i,
+    input logic       [4:0]   write_reg_mem_wb_i,
+    // input logic         ctrl_branch_mem_wb_i,
+    input logic               ctrl_mem_to_reg_mem_wb_i,
+    input logic               ctrl_write_reg_mem_wb_i,
     output logic      [31:0]  write_data_wb_id,
     output logic      [4:0]   write_reg_wb_id,
     output logic      [0:0]   ctrl_write_reg_wb_id
-    // output logic [0:0]   ctrl_branch_wb_if
+    // output logic [0:0]   ctrl_branch_wb_if_q
 );
 
-assign write_data_wb_id = ctrl_mem_to_reg_mem_wb ? r_data_mem_wb : reg_out_mem_wb;   
-assign ctrl_write_reg_wb_id = ctrl_write_reg_mem_wb;
-assign write_reg_wb_id = write_reg_mem_wb;
+assign write_data_wb_id = ctrl_mem_to_reg_mem_wb_i ? r_data_mem_wb_i : reg_out_mem_wb_i;   
+assign ctrl_write_reg_wb_id = ctrl_write_reg_mem_wb_i;
+assign write_reg_wb_id = write_reg_mem_wb_i;
 
-// always @ (posedge clk)
+// always @ (posedge clk_i)
 // begin
-//     ctrl_branch_wb_if <= ctrl_branch_mem_wb;
+//     ctrl_branch_wb_if_q <= ctrl_branch_mem_wb_i;
 // end
 endmodule

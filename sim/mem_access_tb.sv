@@ -14,17 +14,17 @@ module mem_access_tb();
 
 mem_access mem_access_inst
 (
-    .clk(clk),
-    .mem_read_exe_mem(mem_read_exe_mem),
-    .mem_write_exe_mem(mem_write_exe_mem),
-    .mem_to_reg_exe_mem(mem_to_reg_exe_mem),
-    .alu_out_exe_mem(alu_out_exe_mem),
-    .w_data_exe_mem(w_data_exe_mem),
-    .write_reg_exe_mem(write_reg_exe_mem),
-    .r_data_mem_wb(r_data_mem_wb),
-    .reg_out_mem_wb(reg_out_mem_wb),
-    .mem_to_reg_mem_wb(mem_to_reg_mem_wb),
-    .write_reg_mem_wb(write_reg_mem_wb) 
+    .clk_i(clk),
+    .ctrl_mem_read_exe_mem_i(mem_read_exe_mem),
+    .ctrl_mem_write_exe_mem_i(mem_write_exe_mem),
+    .ctrl_mem_to_reg_exe_mem_i(mem_to_reg_exe_mem),
+    .alu_out_exe_mem_i(alu_out_exe_mem),
+    .w_data_exe_mem_i(w_data_exe_mem),
+    .write_reg_exe_mem_i(write_reg_exe_mem),
+    // .r_data_mem_wb(r_data_mem_wb),
+    .reg_out_mem_wb_q(reg_out_mem_wb),
+    .ctrl_mem_to_reg_mem_wb_q(mem_to_reg_mem_wb),
+    .write_reg_mem_wb_q(write_reg_mem_wb) 
 );
 
 initial 

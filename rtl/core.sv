@@ -12,16 +12,16 @@ module core #
     parameter RAMDataWidth = 32
 )
 (
-  input logic clk,
-  input logic rst,
-  input logic  [31:0] bus_rdata,
+  input logic clk_i,
+  input logic rst_i,
+  input logic  [31:0] bus_rdata_i,
   output logic [31:0] bus_addr,
   output logic [31:0] bus_wdata,
   output logic        bus_we,
   output logic [15:0] led
 );
-logic [31:0]    rom_rdata;
-logic [31:0]    ram_rdata;
+logic [31:0]    rom_rdata_q;
+logic [31:0]    ram_rdata_q;
 logic [0:0]     ram_we;
 logic [31:0]    ram_wdata;
 logic [31:0]    rom_addr;
@@ -42,13 +42,13 @@ assign bus_addr = ram_addr;
 
 
 
-assign ram_rdata_cpu = ram_access ? ram_rdata : bus_rdata; // TODO: this ram_access should be delayed by a cycle
+assign ram_rdata_cpu = ram_access ? ram_rdata_q : bus_rdata_i; // TODO: this ram_access should be delayed by a cycle
 
 cpu cpu1 (
-    .clk(clk),
-    .rst(rst),
-    .rom_rdata(rom_rdata),
-    .ram_rdata(ram_rdata_cpu),
+    .clk_i(clk_i),
+    .rst_i(rst_i),
+    .rom_rdata_i(rom_rdata_q),
+    .ram_rdata_i(ram_rdata_cpu),
     .ram_we(ram_we),
     .ram_wdata(ram_wdata),
     .rom_addr(rom_addr),
@@ -61,9 +61,9 @@ rom #(
     .ROMWordWidth(ROMDataWidth),
     .INIT_FILE("rom.mem")
 ) rom1 (
-    .clk(clk),
-    .addr(rom_addr[ROMAddrWidth - 1:0]),
-    .r_data(rom_rdata) // output logic is clocked so OK to input logic comb logic
+    .clk_i(clk_i),
+    .addr_i(rom_addr[ROMAddrWidth - 1:0]),
+    .r_data_q(rom_rdata_q)
 );
 
 
@@ -72,11 +72,11 @@ ram #(
     .RAMWordWidth(RAMDataWidth),
     .INIT_FILE("ram.mem")
 ) ram1 (
-    .clk(clk),
-    .we(ram_we & ram_access),
-    .addr(ram_addr[RAMAddrWidth - 1:0]),
-    .w_data(ram_wdata[RAMDataWidth - 1:0]),
-    .r_data(ram_rdata[RAMDataWidth - 1:0])
+    .clk_i(clk_i),
+    .we_i(ram_we & ram_access),
+    .addr_i(ram_addr[RAMAddrWidth - 1:0]),
+    .w_data_i(ram_wdata[RAMDataWidth - 1:0]),
+    .r_data_q(ram_rdata_q[RAMDataWidth - 1:0])
 );
 
 endmodule

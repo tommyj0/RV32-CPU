@@ -21,8 +21,8 @@
 `include "opcodes.vh"
 
 module control_unit(
-    // instruction opcode from fetch
-    input logic       [6:0]   opcode,
+    // instruction opcode_i from fetch
+    input logic       [6:0]   opcode_i,
     // asynch outputs
     output logic          branch,
     output logic          mem_read,
@@ -42,7 +42,7 @@ begin
     mem_write = 'b0;
     alu_src = 'b0;
     reg_write = 'b0;
-    case(opcode)
+    case(opcode_i)
         `LOAD: 
         begin
             mem_read = 'b1;
