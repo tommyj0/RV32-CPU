@@ -36,7 +36,7 @@ instr_fetch u_instr_fetch(
     .branch_mem_if_i(branch_mem_if),
     .PC_branch_mem_if_i(PC_branch_mem_if),
     // .instr_if_id(instr_if_id),
-    .PC_if_id_q(PC_if_id)
+    .PC_if_id_o(PC_if_id)
 );
 
 endmodule

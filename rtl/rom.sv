@@ -11,7 +11,7 @@ module rom #
 (
     input logic clk_i,
     input logic [ROMAddrWidth - 1:0] addr_i, // byte addressed
-    output logic [ROMWordWidth - 1:0] r_data_q
+    output logic [ROMWordWidth - 1:0] r_data_o
 
 );
 
@@ -19,6 +19,9 @@ module rom #
 logic [ROMAddrWidth - 3:0] addr_4b; // 4 byte addressed
 
 logic [ROMWordWidth - 1:0] mem_q [0:2**(ROMAddrWidth - $clog2(ROMWordWidth >> 3)) - 1];
+logic [ROMWordWidth - 1:0] r_data_q;
+
+assign r_data_o = r_data_q;
 
 assign addr_4b = addr_i[ROMAddrWidth - 1:2];
 

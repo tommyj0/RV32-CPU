@@ -13,10 +13,10 @@ top top_inst (
     .clk_i(clk),
     .rst_i(rst),
     .btns_i(btns),
-    .led(led),
-    .colour_out(colour_out),
-    .HS(HS),
-    .VS(VS)
+    .led_o(led),
+    .colour_out_o(colour_out),
+    .HS_o(HS),
+    .VS_o(VS)
 );
 
 initial begin

@@ -15,13 +15,24 @@ module mem_access # (
     // input logic [31:0]  w_data_exe_mem_i,
     input logic       [4:0]   write_reg_exe_mem_i,
     // OUTPUTS
-    // output logic [31:0]  r_data_mem_wb,
-    output logic  [31:0]  reg_out_mem_wb_q,
-    output logic  [4:0]   write_reg_mem_wb_q,
-    output logic          ctrl_branch_mem_wb_q,
-    output logic          ctrl_mem_to_reg_mem_wb_q,
-    output logic          ctrl_write_reg_mem_wb_q
+    // output logic [31:0]  r_data_mem_wb_o,
+    output logic  [31:0]  reg_out_mem_wb_o,
+    output logic  [4:0]   write_reg_mem_wb_o,
+    output logic          ctrl_branch_mem_wb_o,
+    output logic          ctrl_mem_to_reg_mem_wb_o,
+    output logic          ctrl_write_reg_mem_wb_o
 );
+logic [31:0] reg_out_mem_wb_q;
+logic [4:0] write_reg_mem_wb_q;
+logic ctrl_branch_mem_wb_q;
+logic ctrl_mem_to_reg_mem_wb_q;
+logic ctrl_write_reg_mem_wb_q;
+
+assign reg_out_mem_wb_o = reg_out_mem_wb_q;
+assign write_reg_mem_wb_o = write_reg_mem_wb_q;
+assign ctrl_branch_mem_wb_o = ctrl_branch_mem_wb_q;
+assign ctrl_mem_to_reg_mem_wb_o = ctrl_mem_to_reg_mem_wb_q;
+assign ctrl_write_reg_mem_wb_o = ctrl_write_reg_mem_wb_q;
 
 always@(posedge clk_i)
 begin

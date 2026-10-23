@@ -55,9 +55,9 @@ alu alu_inst(
     .in1_i(in1),
     .in2_i(in2),
     .alu_op_i(in_select),
-    .zero(zero),
-    .alu_result(alu_result),
-    .overflow(overflow)
+    .zero_o(zero),
+    .alu_result_o(alu_result),
+    .overflow_o(overflow)
 );
 
 endmodule

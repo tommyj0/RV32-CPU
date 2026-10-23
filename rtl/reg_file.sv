@@ -27,14 +27,14 @@ module reg_file(
     input logic [4:0]     write_reg_i,
     input logic [31:0]    write_data_i,
     input logic           write_reg_enable_i,
-    output logic [31:0]   read_data1,
-    output logic [31:0]   read_data2
+    output logic [31:0]   read_data1_o,
+    output logic [31:0]   read_data2_o
 );
 
 logic [31:0] regs_q [1:31];
 
-assign read_data1 = (read_reg1_i == 'h0) ? 'h0 : regs_q[read_reg1_i];
-assign read_data2 = (read_reg2_i == 'h0) ? 'h0 : regs_q[read_reg2_i];
+assign read_data1_o = (read_reg1_i == 'h0) ? 'h0 : regs_q[read_reg1_i];
+assign read_data2_o = (read_reg2_i == 'h0) ? 'h0 : regs_q[read_reg2_i];
 
 always@(posedge clk_i)
 begin

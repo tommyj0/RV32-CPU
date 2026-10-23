@@ -11,22 +11,46 @@ module decode(
     input logic [4:0]         write_reg_wb_id_i, // from wb
     input logic [31:0]        write_data_wb_id_i, // from wb
     input logic               write_reg_enable_wb_id_i, // from wb
-    output logic [31:0]   rs1_id_exe_q,
-    output logic [31:0]   rs2_id_exe_q,
-    output logic [31:0]   PC_id_exe_q,
-    output logic [31:0]   imm_id_exe_q,
-    output logic [4:0]    write_reg_id_exe_q,
-    output logic [0:0]    ctrl_branch_id_exe_q,
-    output logic [0:0]    ctrl_mem_read_id_exe_q,
-    output logic [0:0]    ctrl_mem_to_reg_id_exe_q,
-    output logic [1:0]    ctrl_alu_op_id_exe_q,
-    output logic [0:0]    ctrl_mem_write_id_exe_q,
-    output logic [0:0]    ctrl_alu_src_id_exe_q,
-    output logic [0:0]    ctrl_write_reg_id_exe_q,
-    output logic [2:0]    funct3_id_exe_q,
-    output logic [0:0]    funct7_5_id_exe_q,
-    output logic [0:0]    stall_out_q
+    output logic [31:0]   rs1_id_exe_o,
+    output logic [31:0]   rs2_id_exe_o,
+    output logic [31:0]   PC_id_exe_o,
+    output logic [31:0]   imm_id_exe_o,
+    output logic [4:0]    write_reg_id_exe_o,
+    output logic [0:0]    ctrl_branch_id_exe_o,
+    output logic [0:0]    ctrl_mem_read_id_exe_o,
+    output logic [0:0]    ctrl_mem_to_reg_id_exe_o,
+    output logic [1:0]    ctrl_alu_op_id_exe_o,
+    output logic [0:0]    ctrl_mem_write_id_exe_o,
+    output logic [0:0]    ctrl_alu_src_id_exe_o,
+    output logic [0:0]    ctrl_write_reg_id_exe_o,
+    output logic [2:0]    funct3_id_exe_o,
+    output logic [0:0]    funct7_5_id_exe_o,
+    output logic [0:0]    stall_out_o
 );
+
+logic [31:0] rs1_id_exe_q, rs2_id_exe_q, PC_id_exe_q, imm_id_exe_q;
+logic [4:0] write_reg_id_exe_q;
+logic ctrl_branch_id_exe_q, ctrl_mem_read_id_exe_q, ctrl_mem_to_reg_id_exe_q;
+logic [1:0] ctrl_alu_op_id_exe_q;
+logic ctrl_mem_write_id_exe_q, ctrl_alu_src_id_exe_q, ctrl_write_reg_id_exe_q;
+logic [2:0] funct3_id_exe_q;
+logic funct7_5_id_exe_q, stall_out_q;
+
+assign rs1_id_exe_o = rs1_id_exe_q;
+assign rs2_id_exe_o = rs2_id_exe_q;
+assign PC_id_exe_o = PC_id_exe_q;
+assign imm_id_exe_o = imm_id_exe_q;
+assign write_reg_id_exe_o = write_reg_id_exe_q;
+assign ctrl_branch_id_exe_o = ctrl_branch_id_exe_q;
+assign ctrl_mem_read_id_exe_o = ctrl_mem_read_id_exe_q;
+assign ctrl_mem_to_reg_id_exe_o = ctrl_mem_to_reg_id_exe_q;
+assign ctrl_alu_op_id_exe_o = ctrl_alu_op_id_exe_q;
+assign ctrl_mem_write_id_exe_o = ctrl_mem_write_id_exe_q;
+assign ctrl_alu_src_id_exe_o = ctrl_alu_src_id_exe_q;
+assign ctrl_write_reg_id_exe_o = ctrl_write_reg_id_exe_q;
+assign funct3_id_exe_o = funct3_id_exe_q;
+assign funct7_5_id_exe_o = funct7_5_id_exe_q;
+assign stall_out_o = stall_out_q;
 
 localparam [31:0] STALL_INSTRUCTION =  32'h00000013;  // addi x0,x0,0
 
@@ -86,8 +110,8 @@ reg_file u_reg_file (
     .write_reg_i(write_reg_wb_id_i),
     .write_data_i(write_data_wb_id_i),
     .write_reg_enable_i(write_reg_enable_wb_id_i),
-    .read_data1(read_data1),
-    .read_data2(read_data2)
+    .read_data1_o(read_data1),
+    .read_data2_o(read_data2)
 );
 
 
@@ -95,13 +119,13 @@ control_unit u_control_unit(
     // inputs
     .opcode_i(out_opcode),
     // outputs
-    .branch(ctrl_branch_id_exe_next), //  BRANCH?
-    .mem_read(ctrl_mem_read_id_exe_next), // READ FROM MEM?
-    .mem_to_reg(ctrl_mem_to_reg_id_exe_next), // LOAD?
-    .alu_op(ctrl_alu_op_id_exe_next), // tells the ALU control what format the instr is
-    .mem_write(ctrl_mem_write_id_exe_next), // STORE?
-    .alu_src(ctrl_alu_src_id_exe_next), // IMM USED INSTEAD OF RS2?
-    .reg_write(ctrl_write_reg_id_exe_next) // REG WRITE?
+    .branch_o(ctrl_branch_id_exe_next), //  BRANCH?
+    .mem_read_o(ctrl_mem_read_id_exe_next), // READ FROM MEM?
+    .mem_to_reg_o(ctrl_mem_to_reg_id_exe_next), // LOAD?
+    .alu_op_o(ctrl_alu_op_id_exe_next), // tells the ALU control what format the instr is
+    .mem_write_o(ctrl_mem_write_id_exe_next), // STORE?
+    .alu_src_o(ctrl_alu_src_id_exe_next), // IMM USED INSTEAD OF RS2?
+    .reg_write_o(ctrl_write_reg_id_exe_next) // REG WRITE?
 );
 
 

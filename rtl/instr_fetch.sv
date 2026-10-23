@@ -12,14 +12,16 @@ module instr_fetch
     input logic       [31:0]  PC_branch_mem_if_i,
     input logic               stall_i,
     // OUTPUTS
-    // output logic [31:0]  instr_if_id,
-    output logic      [31:0]  PC_if_id_q
+    // output logic [31:0]  instr_if_id_o,
+    output logic      [31:0]  PC_if_id_o
 );
 
 logic    [31:0]  Next_PC;
 logic     [31:0]  PC_q;
+logic    [31:0]  PC_if_id_q;
 
 assign PC_if_id_q = PC_q;
+assign PC_if_id_o = PC_if_id_q;
 // assign Next_PC = (branch_mem_if_i) ? PC_branch_mem_if_i : (stall_i) ? PC_q : PC_q + 4;
 assign Next_PC = (stall_i) ? PC_q : (branch_mem_if_i) ? PC_branch_mem_if_i : PC_q + 4;
 

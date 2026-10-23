@@ -45,12 +45,12 @@ module vga_memory #
     input logic [31:0] bus_wdata_i, 
     input logic        vga_we_i,
     input logic frame_trig_i,   
-    output logic [11:0] colour_out
+    output logic [11:0] colour_out_o
     );
 
 logic [$clog2(DISPLAY_WIDTH)-1:0] x_write;
 logic [$clog2(DISPLAY_HEIGHT)-1:0] y_write;
-logic [11:0] colour_in_i;
+logic [11:0] colour_in;
 
 localparam integer DEPTH = DISPLAY_WIDTH*DISPLAY_HEIGHT;
 
@@ -61,16 +61,16 @@ logic [INPUT_COLOUR_BITS - 1:0] frame_buffer_q [0:DEPTH - 1];
 
 assign x_write = bus_wdata_i[9:1];
 assign y_write = bus_wdata_i[19:11];
-assign colour_in_i = bus_wdata_i[31:20];
+assign colour_in = bus_wdata_i[31:20];
 assign write_addr = y_write * DISPLAY_WIDTH + x_write;
 assign read_addr = (y_i >> 1)* DISPLAY_WIDTH + (x_i >> 1);
 
 logic [INPUT_COLOUR_BITS - 1:0] colour_8bit_q; 
-assign colour_out = {colour_8bit_q[7:5], 1'b0, colour_8bit_q[4:2], 1'b0, colour_8bit_q[1:0], 2'b0};
+assign colour_out_o = {colour_8bit_q[7:5], 1'b0, colour_8bit_q[4:2], 1'b0, colour_8bit_q[1:0], 2'b0};
 
 always@(posedge clk_i) begin
     if (vga_we_i) begin
-      frame_buffer_q[write_addr] <= colour_in_i[INPUT_COLOUR_BITS - 1:0];
+      frame_buffer_q[write_addr] <= colour_in[INPUT_COLOUR_BITS - 1:0];
     end
     colour_8bit_q <= frame_buffer_q[read_addr];
 //    colour_8bit_q <= 8'hF0;

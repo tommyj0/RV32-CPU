@@ -34,8 +34,8 @@ reg_file reg_file_inst(
   .write_reg_i(write_reg),
   .write_data_i(write_data),
   .write_reg_enable_i(write_reg_enable),
-  .read_data1(read_data1),
-  .read_data2(read_data2)
+  .read_data1_o(read_data1),
+  .read_data2_o(read_data2)
 );
 
 endmodule

@@ -22,9 +22,9 @@ mem_access mem_access_inst
     .w_data_exe_mem_i(w_data_exe_mem),
     .write_reg_exe_mem_i(write_reg_exe_mem),
     // .r_data_mem_wb(r_data_mem_wb),
-    .reg_out_mem_wb_q(reg_out_mem_wb),
-    .ctrl_mem_to_reg_mem_wb_q(mem_to_reg_mem_wb),
-    .write_reg_mem_wb_q(write_reg_mem_wb) 
+    .reg_out_mem_wb_o(reg_out_mem_wb),
+    .ctrl_mem_to_reg_mem_wb_o(mem_to_reg_mem_wb),
+    .write_reg_mem_wb_o(write_reg_mem_wb) 
 );
 
 initial 

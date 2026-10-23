@@ -12,11 +12,11 @@ module cpu(
     input logic               rst_i,
     input logic  [31:0]       rom_rdata_i,
     input logic  [31:0]       ram_rdata_i,
-    output logic              ram_we,
-    output logic [31:0]       ram_wdata,
-    output logic [31:0]       rom_addr,
-    output logic [31:0]       ram_addr,
-    output logic [15:0]       led
+    output logic              ram_we_o,
+    output logic [31:0]       ram_wdata_o,
+    output logic [31:0]       rom_addr_o,
+    output logic [31:0]       ram_addr_o,
+    output logic [15:0]       led_o
 );
 
 // Instruction Fetch wires
@@ -35,10 +35,10 @@ instr_fetch u_instr_fetch(
     .PC_branch_mem_if_i(PC_branch_mem_if_i),
     .stall_i(stall_id),
     // .instr_if_id_i(instr_if_id_i),
-    .PC_if_id_q(PC_if_id_q)
+    .PC_if_id_o(PC_if_id_q)
 );
 assign instr_if_id_i = rom_rdata_i;
-assign rom_addr = PC_if_id_q;
+assign rom_addr_o = PC_if_id_q;
 
 // Decode wires
 logic [31:0] rs1_id_exe_q;
@@ -76,21 +76,21 @@ decode u_decode(
     .write_reg_wb_id_i(write_reg_wb_id_i),
     .write_data_wb_id_i(write_data_wb_id_i),
     .write_reg_enable_wb_id_i(ctrl_write_reg_wb_id),
-    .rs1_id_exe_q(rs1_id_exe_q),
-    .rs2_id_exe_q(rs2_id_exe_q),
-    .PC_id_exe_q(PC_id_exe_q),
-    .imm_id_exe_q(imm_id_exe_q),
-    .write_reg_id_exe_q(write_reg_id_exe_q),
-    .ctrl_branch_id_exe_q(ctrl_branch_id_exe_q),
-    .ctrl_mem_read_id_exe_q(ctrl_mem_read_id_exe_q),
-    .ctrl_mem_to_reg_id_exe_q(ctrl_mem_to_reg_id_exe_q),
-    .ctrl_alu_op_id_exe_q(ctrl_alu_op_id_exe_q),
-    .ctrl_mem_write_id_exe_q(ctrl_mem_write_id_exe_q),
-    .ctrl_alu_src_id_exe_q(ctrl_alu_src_id_exe_q),
-    .ctrl_write_reg_id_exe_q(ctrl_write_reg_id_exe_q),
-    .funct3_id_exe_q(funct3_id_exe_q),
-    .funct7_5_id_exe_q(funct7_5_id_exe_q),
-    .stall_out_q(stall_id)
+    .rs1_id_exe_o(rs1_id_exe_q),
+    .rs2_id_exe_o(rs2_id_exe_q),
+    .PC_id_exe_o(PC_id_exe_q),
+    .imm_id_exe_o(imm_id_exe_q),
+    .write_reg_id_exe_o(write_reg_id_exe_q),
+    .ctrl_branch_id_exe_o(ctrl_branch_id_exe_q),
+    .ctrl_mem_read_id_exe_o(ctrl_mem_read_id_exe_q),
+    .ctrl_mem_to_reg_id_exe_o(ctrl_mem_to_reg_id_exe_q),
+    .ctrl_alu_op_id_exe_o(ctrl_alu_op_id_exe_q),
+    .ctrl_mem_write_id_exe_o(ctrl_mem_write_id_exe_q),
+    .ctrl_alu_src_id_exe_o(ctrl_alu_src_id_exe_q),
+    .ctrl_write_reg_id_exe_o(ctrl_write_reg_id_exe_q),
+    .funct3_id_exe_o(funct3_id_exe_q),
+    .funct7_5_id_exe_o(funct7_5_id_exe_q),
+    .stall_out_o(stall_id)
 );
 
 // Execute wires
@@ -128,16 +128,16 @@ execute u_execute(
     .funct3_id_exe_i(funct3_id_exe_q),
     .funct7_5_id_exe_i(funct7_5_id_exe_q),
     // outputs
-    .alu_result_exe_mem_q(alu_result_exe_mem_q),
-    .zero_exe_mem_q(zero_exe_mem_q),
-    .PC_branch_exe_mem_q(PC_branch_exe_mem_q), // TODO connect to mem_q
-    .rs2_exe_mem_q(rs2_exe_mem_q),
-    .write_reg_exe_mem_q(write_reg_exe_mem_q),
-    .ctrl_branch_exe_mem_q(ctrl_branch_exe_mem_q),
-    .ctrl_mem_read_exe_mem_q(ctrl_mem_read_exe_mem_q),
-    .ctrl_mem_to_reg_exe_mem_q(ctrl_mem_to_reg_exe_mem_q),
-    .ctrl_mem_write_exe_mem_q(ctrl_mem_write_exe_mem_q),
-    .ctrl_write_reg_exe_mem_q(ctrl_write_reg_exe_mem_q)
+    .alu_result_exe_mem_o(alu_result_exe_mem_q),
+    .zero_exe_mem_o(zero_exe_mem_q),
+    .PC_branch_exe_mem_o(PC_branch_exe_mem_q), // TODO connect to mem_q
+    .rs2_exe_mem_o(rs2_exe_mem_q),
+    .write_reg_exe_mem_o(write_reg_exe_mem_q),
+    .ctrl_branch_exe_mem_o(ctrl_branch_exe_mem_q),
+    .ctrl_mem_read_exe_mem_o(ctrl_mem_read_exe_mem_q),
+    .ctrl_mem_to_reg_exe_mem_o(ctrl_mem_to_reg_exe_mem_q),
+    .ctrl_mem_write_exe_mem_o(ctrl_mem_write_exe_mem_q),
+    .ctrl_write_reg_exe_mem_o(ctrl_write_reg_exe_mem_q)
 );
 
 // Memory Access wires
@@ -164,20 +164,20 @@ mem_access u_mem_access(
     .write_reg_exe_mem_i(write_reg_exe_mem_q),
     // .r_data_mem_wb(r_data_mem_wb_i),
     // OUTPUTS
-    .reg_out_mem_wb_q(reg_out_mem_wb_q),
-    .write_reg_mem_wb_q(write_reg_mem_wb_q),
-    .ctrl_branch_mem_wb_q(ctrl_branch_mem_if_i),
-    .ctrl_mem_to_reg_mem_wb_q(ctrl_mem_to_reg_mem_wb_q),
-    .ctrl_write_reg_mem_wb_q(ctrl_write_reg_mem_wb_q)
+    .reg_out_mem_wb_o(reg_out_mem_wb_q),
+    .write_reg_mem_wb_o(write_reg_mem_wb_q),
+    .ctrl_branch_mem_wb_o(ctrl_branch_mem_if_i),
+    .ctrl_mem_to_reg_mem_wb_o(ctrl_mem_to_reg_mem_wb_q),
+    .ctrl_write_reg_mem_wb_o(ctrl_write_reg_mem_wb_q)
 );
 
 assign r_data_mem_wb_i = ram_rdata_i;
 
-assign ram_addr = alu_result_exe_mem_q;
+assign ram_addr_o = alu_result_exe_mem_q;
 
-assign ram_we = ctrl_mem_write_exe_mem_q;
+assign ram_we_o = ctrl_mem_write_exe_mem_q;
 
-assign ram_wdata = rs2_exe_mem_q;
+assign ram_wdata_o = rs2_exe_mem_q;
 
 
 // write back instanciation
@@ -191,13 +191,13 @@ write_back u_write_back(
     .ctrl_mem_to_reg_mem_wb_i(ctrl_mem_to_reg_mem_wb_q),
     .ctrl_write_reg_mem_wb_i(ctrl_write_reg_mem_wb_q),
     // outputs
-    .write_data_wb_id(write_data_wb_id_i),
-    .write_reg_wb_id(write_reg_wb_id_i),
-    .ctrl_write_reg_wb_id(ctrl_write_reg_wb_id)
+    .write_data_wb_id_o(write_data_wb_id_i),
+    .write_reg_wb_id_o(write_reg_wb_id_i),
+    .ctrl_write_reg_wb_id_o(ctrl_write_reg_wb_id)
     // .ctrl_branch_wb_if_q(ctrl_branch_wb_if)
 );
 
 
-assign led = r_data_mem_wb_i[15:0];
+assign led_o = r_data_mem_wb_i[15:0];
 
 endmodule

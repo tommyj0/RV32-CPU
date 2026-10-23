@@ -50,7 +50,4 @@ main()
     uint32_t colour = run_test(test_number) ? PASS_COLOUR : FAIL_COLOUR;
     vga_draw_single_pixel(test_number, 0, colour);
   }
-
-  while (1) {
-  }
 }

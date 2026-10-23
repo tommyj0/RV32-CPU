@@ -8,8 +8,8 @@ module counter(
     clk_i,
     en_i,
     rst_i,
-    count_q,
-    trig_q
+    count_o,
+    trig_o
     );
     
     
@@ -20,8 +20,14 @@ input logic clk_i;
 input logic en_i;
 input logic rst_i;
 
-output logic [WIDTH - 1:0] count_q;
-output logic trig_q;
+output logic [WIDTH - 1:0] count_o;
+output logic trig_o;
+
+logic [WIDTH - 1:0] count_q;
+logic trig_q;
+
+assign count_o = count_q;
+assign trig_o = trig_q;
 
 always@(posedge clk_i) begin
     if (rst_i)

@@ -14,13 +14,20 @@ module vga_driver #
     input logic clk_i,
     input logic rst_i,
     input logic  [11:0] colour_in_i,
-    output logic [11:0] colour_out_q,
-    output logic [10:0] x,
-    output logic [9:0] y,
-    output logic HS_q,
-    output logic VS_q,
-    output logic frame_trig_q
+    output logic [11:0] colour_out_o,
+    output logic [10:0] x_o,
+    output logic [9:0] y_o,
+    output logic HS_o,
+    output logic VS_o,
+    output logic frame_trig_o
 );
+logic [11:0] colour_out_q;
+logic HS_q;
+logic VS_q;
+
+assign colour_out_o = colour_out_q;
+assign HS_o = HS_q;
+assign VS_o = VS_q;
 
 
 //parameter Horz_Visible = 'd640;
@@ -57,28 +64,30 @@ parameter Vert_BackPorchEnd = Vert_SyncPulseEnd + 'd23;
 
 logic [10:0] HorzCount_q; 
 logic [9:0] VertCount_q; 
+logic Trig_vga;
+logic Trig_Horz;
 
 // set clock speed
 counter # (.WIDTH(1), .MAX(1)) counter_25 (
     .clk_i(clk_i),
     .rst_i(rst_i),
     .en_i(1'b1),
-    .trig_q(Trig_vga_q)
+    .trig_o(Trig_vga)
 
 );
 counter # (.WIDTH(11), .MAX(Horz_BackPorchEnd - 1)) counter_horz (
     .clk_i(clk_i),
     .rst_i(rst_i),
-    .en_i(Trig_vga_q),
-    .trig_q(Trig_Horz_q),
-    .count_q(HorzCount_q)
+    .en_i(Trig_vga),
+    .trig_o(Trig_Horz),
+    .count_o(HorzCount_q)
 );
 counter # (.WIDTH(10), .MAX(Vert_BackPorchEnd - 1)) counter_vert (
     .clk_i(clk_i),
     .rst_i(rst_i),
-    .en_i(Trig_Horz_q),
-    .trig_q(frame_trig_q),
-    .count_q(VertCount_q)
+    .en_i(Trig_Horz),
+    .trig_o(frame_trig_o),
+    .count_o(VertCount_q)
 );
 
 // clock HS_q and VS_q so they're synched with colour_out_q (takes colour a cycle to go thru frame_buffer_q BRAM)
@@ -104,13 +113,13 @@ logic draw_window_dly_q;
 always@(*) begin
     if (HorzCount_q < Horz_Visible && VertCount_q < Vert_Visible) begin
         draw_window_dly = 1'b1;
-        x = HorzCount_q;
-        y = VertCount_q;
+        x_o = HorzCount_q;
+        y_o = VertCount_q;
     end
     else begin
         draw_window_dly = 1'b0;
-        x = 'b0;
-        y = 'b0;
+        x_o = 'b0;
+        y_o = 'b0;
     end
     // if (draw_window_dly_q) // wait for correct colour
     //   colour_out_q = colour_in_i;

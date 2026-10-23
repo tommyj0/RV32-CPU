@@ -13,7 +13,7 @@ module ram #
     input logic               we_i,
     input logic       [RAMAddrWidth - 1:0]  addr_i, // byte addressed
     input logic       [RAMWordWidth - 1:0]  w_data_i,
-    output logic  [RAMWordWidth -1 :0]  r_data_q
+    output logic  [RAMWordWidth -1 :0]  r_data_o
 
 );
 
@@ -21,6 +21,9 @@ module ram #
 logic [RAMAddrWidth - 3:0] addr_4b; // 4 byte addressed
 
 logic [RAMWordWidth - 1:0] mem_q [0:2**(RAMAddrWidth - $clog2(RAMWordWidth >> 3)) - 1];
+logic [RAMWordWidth - 1:0] r_data_q;
+
+assign r_data_o = r_data_q;
 
 assign addr_4b = addr_i[RAMAddrWidth - 1:2];
 

@@ -6,7 +6,7 @@ module alu_control(
   input logic [2:0] funct3_i,
   input logic [0:0] funct7_5_i,
   input logic [1:0] ctrl_alu_op_i,
-  output logic [3:0] alu_ctrl
+  output logic [3:0] alu_ctrl_o
 );
 
 
@@ -16,14 +16,14 @@ begin
     `ALU_OP_MATH:
     begin
       if (funct3_i[1:0] == 2'b01)
-        alu_ctrl = {funct7_5_i,funct3_i};
+        alu_ctrl_o = {funct7_5_i,funct3_i};
       else
-        alu_ctrl = {1'b0,funct3_i};
+        alu_ctrl_o = {1'b0,funct3_i};
     end
-    `ALU_OP_BEQ: alu_ctrl = `SUB;
-    `ALU_OP_MEM: alu_ctrl = `ADD;
+    `ALU_OP_BEQ: alu_ctrl_o = `SUB;
+    `ALU_OP_MEM: alu_ctrl_o = `ADD;
     default:
-      alu_ctrl = `ADD;
+      alu_ctrl_o = `ADD;
   endcase
     
 
