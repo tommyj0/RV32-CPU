@@ -28,6 +28,16 @@ Simple RV32 core targetted for the Xilinx Basys3 FPGA. The aim is to have a ligh
 ./scripts/compile.sh
 ```
 
+The default firmware test is `vga_test`. Select another test by passing its
+name without the `.c` extension:
+
+```sh
+./scripts/compile.sh <test-name>
+```
+
+Tests are stored in `fw/test/`, while reusable firmware functions are stored
+in `fw/src/`.
+
 ### FPGA
 
 - Include all sources in Vivado (including memory files)

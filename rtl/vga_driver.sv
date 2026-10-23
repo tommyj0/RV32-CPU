@@ -100,7 +100,7 @@ end
 
 
 logic draw_window_dly;
-logic draw_window_dly_reg_q;
+logic draw_window_dly_q;
 always@(*) begin
     if (HorzCount_q < Horz_Visible && VertCount_q < Vert_Visible) begin
         draw_window_dly = 1'b1;
@@ -112,7 +112,7 @@ always@(*) begin
         x = 'b0;
         y = 'b0;
     end
-    // if (draw_window_dly_reg_q) // wait for correct colour
+    // if (draw_window_dly_q) // wait for correct colour
     //   colour_out_q = colour_in_i;
     // else
     //   colour_out_q = 'h0;
@@ -120,8 +120,8 @@ end
 
 always@(posedge clk_i) begin
   // wait for colour_in_i to be available
-  draw_window_dly_reg_q <= draw_window_dly;
-  if (draw_window_dly_reg_q)
+  draw_window_dly_q <= draw_window_dly;
+  if (draw_window_dly_q)
     colour_out_q <= colour_in_i;
   else
     colour_out_q <= 'b0;

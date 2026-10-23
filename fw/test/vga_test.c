@@ -1,6 +1,6 @@
 #include "vga_interface.h"
 
-int 
+int
 main()
 {
   display_t game_display;

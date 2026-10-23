@@ -14,7 +14,8 @@ mkdir mem
 
 
 CC=riscv64-unknown-elf-gcc
-cmake -B build -S fw
+TEST_NAME="${1:-vga_test}"
+cmake -B build -S fw -DTEST_NAME="$TEST_NAME"
 
 cmake --build build
 

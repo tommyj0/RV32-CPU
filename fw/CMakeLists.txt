@@ -11,6 +11,8 @@ set(CMAKE_ASM_COMPILER "riscv64-unknown-elf-gcc")
 # --------------------------------------------------------------------
 set(CMAKE_C_STANDARD 99)
 
+set(TEST_NAME "vga_test" CACHE STRING "Firmware test name to build")
+
 # Build type: Debug / Release
 if(NOT CMAKE_BUILD_TYPE)
     set(CMAKE_BUILD_TYPE Debug)
@@ -21,13 +23,21 @@ endif()
 # --------------------------------------------------------------------
 # Source and include directories
 set(SRC_DIR ${CMAKE_SOURCE_DIR}/src)
+set(TEST_DIR ${CMAKE_SOURCE_DIR}/test)
 set(INCLUDE_DIR ${CMAKE_SOURCE_DIR}/include)
 
-# Collect all .c or .cpp files automatically
-file(GLOB_RECURSE SOURCES 
+set(TEST_SOURCE ${TEST_DIR}/${TEST_NAME}.c)
+if(NOT EXISTS "${TEST_SOURCE}")
+    message(FATAL_ERROR "Firmware test '${TEST_NAME}' was not found at ${TEST_SOURCE}")
+endif()
+
+file(GLOB SOURCES
+    ${SRC_DIR}/*.c
+)
+list(APPEND SOURCES
     ${CMAKE_SOURCE_DIR}/utils/crt0.s
-    ${SRC_DIR}/*.c 
-    )
+    ${TEST_SOURCE}
+)
 
 include_directories(${INCLUDE_DIR})
 
