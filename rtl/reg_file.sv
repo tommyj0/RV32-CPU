@@ -21,7 +21,7 @@
 
 
 module reg_file(
-    input logic           clk_i,
+    input logic           clk,
     input logic [4:0]     read_reg1_i,
     input logic [4:0]     read_reg2_i,
     input logic [4:0]     write_reg_i,
@@ -36,7 +36,7 @@ logic [31:0] regs_q [1:31];
 assign read_data1_o = (read_reg1_i == 'h0) ? 'h0 : regs_q[read_reg1_i];
 assign read_data2_o = (read_reg2_i == 'h0) ? 'h0 : regs_q[read_reg2_i];
 
-always@(posedge clk_i)
+always@(posedge clk)
 begin
     if (write_reg_enable_i)
         regs_q[write_reg_i] <= write_data_i;

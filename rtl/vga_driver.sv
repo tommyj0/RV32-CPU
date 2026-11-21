@@ -5,14 +5,12 @@
 module vga_driver #
 (
     parameter DISPLAY_WIDTH=800,
-    parameter DISPLAY_HEIGHT=600,
-    parameter Horz_Visible = DISPLAY_WIDTH,
-    parameter Vert_Visible = DISPLAY_HEIGHT
+    parameter DISPLAY_HEIGHT=600
 
 )
 (
-    input logic clk_i,
-    input logic rst_i,
+    input logic clk,
+    input logic rst,
     input logic  [11:0] colour_in_i,
     output logic [11:0] colour_out_o,
     output logic [10:0] x_o,
@@ -41,14 +39,16 @@ assign VS_o = VS_q;
 //parameter Vert_BackPorchEnd = Vert_SyncPulseEnd + 'd29;     
 
 
-parameter Horz_FrontPorchEnd = Horz_Visible + 'd56; 
-parameter Horz_SyncPulseEnd = Horz_FrontPorchEnd + 'd120;     
-parameter Horz_BackPorchEnd = Horz_SyncPulseEnd + 'd64;     
+localparam Horz_Visible = DISPLAY_WIDTH;
+localparam Horz_FrontPorchEnd = Horz_Visible + 'd56; 
+localparam Horz_SyncPulseEnd = Horz_FrontPorchEnd + 'd120;     
+localparam Horz_BackPorchEnd = Horz_SyncPulseEnd + 'd64;     
 
 
-parameter Vert_FrontPorchEnd = Vert_Visible + 'd37;     
-parameter Vert_SyncPulseEnd = Vert_FrontPorchEnd + 'd6;     
-parameter Vert_BackPorchEnd = Vert_SyncPulseEnd + 'd23;     
+localparam Vert_Visible = DISPLAY_HEIGHT;
+localparam Vert_FrontPorchEnd = Vert_Visible + 'd37;     
+localparam Vert_SyncPulseEnd = Vert_FrontPorchEnd + 'd6;     
+localparam Vert_BackPorchEnd = Vert_SyncPulseEnd + 'd23;     
 
 
 //parameter Horz_Visible = 'd1280;
@@ -69,22 +69,23 @@ logic Trig_Horz;
 
 // set clock speed
 counter # (.WIDTH(1), .MAX(1)) counter_25 (
-    .clk_i(clk_i),
-    .rst_i(rst_i),
+    .clk(clk),
+    .rst(rst),
     .en_i(1'b1),
-    .trig_o(Trig_vga)
+    .trig_o(Trig_vga),
+    .count_o()
 
 );
 counter # (.WIDTH(11), .MAX(Horz_BackPorchEnd - 1)) counter_horz (
-    .clk_i(clk_i),
-    .rst_i(rst_i),
+    .clk(clk),
+    .rst(rst),
     .en_i(Trig_vga),
     .trig_o(Trig_Horz),
     .count_o(HorzCount_q)
 );
 counter # (.WIDTH(10), .MAX(Vert_BackPorchEnd - 1)) counter_vert (
-    .clk_i(clk_i),
-    .rst_i(rst_i),
+    .clk(clk),
+    .rst(rst),
     .en_i(Trig_Horz),
     .trig_o(frame_trig_o),
     .count_o(VertCount_q)
@@ -94,7 +95,7 @@ counter # (.WIDTH(10), .MAX(Vert_BackPorchEnd - 1)) counter_vert (
 
 logic HS_dly_q;
 logic VS_dly_q;
-always@(posedge clk_i) begin
+always@(posedge clk) begin
     HS_q <= HS_dly_q;
     VS_q <= VS_dly_q;
     if (HorzCount_q >= Horz_FrontPorchEnd && HorzCount_q < Horz_SyncPulseEnd)
@@ -127,7 +128,7 @@ always@(*) begin
     //   colour_out_q = 'h0;
 end
 
-always@(posedge clk_i) begin
+always@(posedge clk) begin
   // wait for colour_in_i to be available
   draw_window_dly_q <= draw_window_dly;
   if (draw_window_dly_q)

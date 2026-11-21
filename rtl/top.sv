@@ -14,8 +14,8 @@ module top #
   parameter DISPLAY_SCALE=2
 )
 (
-  input logic clk_i,
-  input logic rst_i,
+  input logic clk,
+  input logic rst,
   input logic [4:0] btns_i,
   output logic [15:0] led_o,
   output logic [11:0] colour_out_o,
@@ -33,8 +33,8 @@ logic        bus_we;
 assign bus_rdata = 32'h0000_0000; // TODO
 
 core core1 (
-  .clk_i(clk_i),
-  .rst_i(rst_i),
+  .clk(clk),
+  .rst(rst),
   .bus_rdata_i(bus_rdata),
   .bus_addr_o(bus_addr),
   .bus_wdata_o(bus_wdata),
@@ -55,8 +55,8 @@ vga_driver  #
 )
 vga_driver1
 (
-    .clk_i(clk_i),
-    .rst_i(rst_i),
+    .clk(clk),
+    .rst(rst),
     .colour_in_i(colour),
     .colour_out_o(colour_out_o),
     .x_o(x),
@@ -77,8 +77,8 @@ vga_memory  #
 )
 vga_memory1
 (
-    .clk_i(clk_i),
-    .rst_i(rst_i),
+    .clk(clk),
+    .rst(rst),
     // .colour_in_i(12'hF0F),
     .colour_out_o(colour),
     .x_i(x),

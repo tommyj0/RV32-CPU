@@ -5,7 +5,7 @@ module mem_access # (
     parameter DataWidth = 32
 ) (
     // INPUTS
-    input logic               clk_i,
+    input logic               clk,
     input logic               ctrl_branch_exe_mem_i,
     input logic               ctrl_mem_read_exe_mem_i,
     // input logic         ctrl_mem_write_exe_mem_i,
@@ -34,7 +34,7 @@ assign ctrl_branch_mem_wb_o = ctrl_branch_mem_wb_q;
 assign ctrl_mem_to_reg_mem_wb_o = ctrl_mem_to_reg_mem_wb_q;
 assign ctrl_write_reg_mem_wb_o = ctrl_write_reg_mem_wb_q;
 
-always@(posedge clk_i)
+always@(posedge clk)
 begin
     begin
         reg_out_mem_wb_q <= alu_out_exe_mem_i;

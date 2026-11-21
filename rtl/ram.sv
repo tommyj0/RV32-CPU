@@ -9,7 +9,7 @@ module ram #
     parameter INIT_FILE = "ram.mem"
 )
 (
-    input logic               clk_i,
+    input logic               clk,
     input logic               we_i,
     input logic       [RAMAddrWidth - 1:0]  addr_i, // byte addressed
     input logic       [RAMWordWidth - 1:0]  w_data_i,
@@ -29,7 +29,7 @@ assign addr_4b = addr_i[RAMAddrWidth - 1:2];
 
 initial $readmemh(INIT_FILE, mem_q);
 
-always@(posedge clk_i)
+always@(posedge clk)
 begin
     if (we_i)
         mem_q[addr_4b] <= w_data_i;

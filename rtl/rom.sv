@@ -9,7 +9,7 @@ module rom #
     parameter INIT_FILE = "rom.mem"
 )
 (
-    input logic clk_i,
+    input logic clk,
     input logic [ROMAddrWidth - 1:0] addr_i, // byte addressed
     output logic [ROMWordWidth - 1:0] r_data_o
 
@@ -28,7 +28,7 @@ assign addr_4b = addr_i[ROMAddrWidth - 1:2];
 initial $readmemh(INIT_FILE, mem_q);
 
 // reads are synchronous to encourage Vivado to instantiate B-RAM
-always@(posedge clk_i)
+always@(posedge clk)
     r_data_q <= mem_q[addr_4b]; 
     
     

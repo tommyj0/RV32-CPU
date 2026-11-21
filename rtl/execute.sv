@@ -6,8 +6,8 @@
 module execute(
         
         // INPUTS
-        input logic               clk_i,
-        input logic               rst_i,
+        input logic               clk,
+        input logic               rst,
         // inputs from decode
         input logic [31:0]        PC_id_exe_i,
         input logic [31:0]        rs1_id_exe_i,
@@ -55,9 +55,9 @@ logic    [31:0]  Next_alu_result;
 logic            Next_zero;
 
 // synchronous
-always@(posedge clk_i)
+always@(posedge clk)
 begin
-    if (rst_i)
+    if (rst)
     begin
         PC_branch_exe_mem_q <= 32'h0;
         alu_result_exe_mem_q <= 32'h0;
@@ -105,7 +105,7 @@ alu u_alu(
     .alu_op_i(alu_ctrl),
     .zero_o(Next_zero),
     .alu_result_o(Next_alu_result),
-    .overflow()
+    .overflow_o()
 );
 
 assign alu_in1 = rs1_id_exe_i;

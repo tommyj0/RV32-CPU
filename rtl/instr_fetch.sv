@@ -6,8 +6,8 @@
 module instr_fetch
 (
     // INPUTS
-    input logic               clk_i,
-    input logic               rst_i,
+    input logic               clk,
+    input logic               rst,
     input logic               branch_mem_if_i,
     input logic       [31:0]  PC_branch_mem_if_i,
     input logic               stall_i,
@@ -25,9 +25,9 @@ assign PC_if_id_o = PC_if_id_q;
 // assign Next_PC = (branch_mem_if_i) ? PC_branch_mem_if_i : (stall_i) ? PC_q : PC_q + 4;
 assign Next_PC = (stall_i) ? PC_q : (branch_mem_if_i) ? PC_branch_mem_if_i : PC_q + 4;
 
-always@(posedge clk_i)
+always@(posedge clk)
 begin
-    if (rst_i)
+    if (rst)
         PC_q <= 32'h0;
     else
         PC_q <= Next_PC;

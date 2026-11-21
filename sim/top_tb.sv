@@ -10,8 +10,8 @@ logic VS;
 
 
 top top_inst (
-    .clk_i(clk),
-    .rst_i(rst),
+    .clk(clk),
+    .rst(rst),
     .btns_i(btns),
     .led_o(led),
     .colour_out_o(colour_out),

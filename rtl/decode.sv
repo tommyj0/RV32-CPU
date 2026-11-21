@@ -4,8 +4,8 @@
 // TODO: propagate the stalled instruction, NOP on every subsequent cycle
 
 module decode(
-    input logic               clk_i,
-    input logic               rst_i,
+    input logic               clk,
+    input logic               rst,
     input logic [31:0]        instr_if_id_i,
     input logic [31:0]        PC_if_id_i,
     input logic [4:0]         write_reg_wb_id_i, // from wb
@@ -104,7 +104,7 @@ logic [4:0]       read_reg1_i;
 logic [4:0]       read_reg2_i;
 
 reg_file u_reg_file (
-    .clk_i(clk_i),
+    .clk(clk),
     .read_reg1_i(read_reg1_i),
     .read_reg2_i(read_reg2_i),
     .write_reg_i(write_reg_wb_id_i),
@@ -262,15 +262,15 @@ begin
             Next_imm = {out_instruction[31:12],12'h000};
         // R
         default:
-            Next_imm = 'h0;
+            Next_imm = 'hX;
     endcase
 end
 
 
 integer i;
-always@(posedge clk_i)
+always@(posedge clk)
 begin
-    if (rst_i)
+    if (rst)
     begin
         rs1_id_exe_q <= 'h0;
         rs2_id_exe_q <= 'h0;
@@ -288,9 +288,9 @@ begin
         funct7_5_id_exe_q <= 'h0;
         stall_out_q <= 'h0;
         for (i = 0; i < WRITTEN_REGS_BUF_LEN; i = i + 1)
-            written_regs_q[i] = 'h0;
+            written_regs_q[i] <= 'h0;
         for (i = 0; i < JUMPS_BUF_LEN; i = i + 1)
-            jumps_q[i] = 'h0;
+            jumps_q[i] <= 'h0;
     end
     else
     begin
@@ -310,9 +310,9 @@ begin
         funct7_5_id_exe_q <= out_instruction[30];
         stall_out_q = Next_stall;
         for (i = 0; i < WRITTEN_REGS_BUF_LEN; i = i + 1)
-            written_regs_q[i] = Next_written_regs[i];
+            written_regs_q[i] <= Next_written_regs[i];
         for (i = 0; i < JUMPS_BUF_LEN-1; i = i + 1) 
-            jumps_q[i] = Next_jumps[i];
+            jumps_q[i] <= Next_jumps[i];
     end
 end
 

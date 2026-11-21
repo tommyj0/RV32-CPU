@@ -12,8 +12,8 @@ module core #
     parameter RAMDataWidth = 32
 )
 (
-  input logic clk_i,
-  input logic rst_i,
+  input logic clk,
+  input logic rst,
   input logic  [31:0] bus_rdata_i,
   output logic [31:0] bus_addr_o,
   output logic [31:0] bus_wdata_o,
@@ -45,8 +45,8 @@ assign bus_addr_o = ram_addr;
 assign ram_rdata_cpu = ram_access ? ram_rdata_q : bus_rdata_i; // TODO: this ram_access should be delayed by a cycle
 
 cpu cpu1 (
-    .clk_i(clk_i),
-    .rst_i(rst_i),
+    .clk(clk),
+    .rst(rst),
     .rom_rdata_i(rom_rdata_q),
     .ram_rdata_i(ram_rdata_cpu),
     .ram_we_o(ram_we),
@@ -61,7 +61,7 @@ rom #(
     .ROMWordWidth(ROMDataWidth),
     .INIT_FILE("rom.mem")
 ) rom1 (
-    .clk_i(clk_i),
+    .clk(clk),
     .addr_i(rom_addr[ROMAddrWidth - 1:0]),
     .r_data_o(rom_rdata_q)
 );
@@ -72,7 +72,7 @@ ram #(
     .RAMWordWidth(RAMDataWidth),
     .INIT_FILE("ram.mem")
 ) ram1 (
-    .clk_i(clk_i),
+    .clk(clk),
     .we_i(ram_we & ram_access),
     .addr_i(ram_addr[RAMAddrWidth - 1:0]),
     .w_data_i(ram_wdata[RAMDataWidth - 1:0]),

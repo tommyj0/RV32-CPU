@@ -36,8 +36,8 @@ module vga_memory #
   parameter OUTPUT_COLOUR_BITS=12
 )
 (
-    input logic clk_i,
-    input logic rst_i,
+    input logic clk,
+    input logic rst,
     // VGA DRIVER ACCESS (READ-ONLY)
     input logic [10:0] x_i, 
     input logic [9:0] y_i, 
@@ -68,7 +68,7 @@ assign read_addr = (y_i >> 1)* DISPLAY_WIDTH + (x_i >> 1);
 logic [INPUT_COLOUR_BITS - 1:0] colour_8bit_q; 
 assign colour_out_o = {colour_8bit_q[7:5], 1'b0, colour_8bit_q[4:2], 1'b0, colour_8bit_q[1:0], 2'b0};
 
-always@(posedge clk_i) begin
+always@(posedge clk) begin
     if (vga_we_i) begin
       frame_buffer_q[write_addr] <= colour_in[INPUT_COLOUR_BITS - 1:0];
     end

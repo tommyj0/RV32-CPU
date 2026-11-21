@@ -21,7 +21,7 @@
 
 
 module write_back(
-    input logic clk_i,
+    input logic clk,
     input logic       [31:0]  r_data_mem_wb_i,
     input logic       [31:0]  reg_out_mem_wb_i,
     input logic       [4:0]   write_reg_mem_wb_i,
@@ -38,7 +38,7 @@ assign write_data_wb_id_o = ctrl_mem_to_reg_mem_wb_i ? r_data_mem_wb_i : reg_out
 assign ctrl_write_reg_wb_id_o = ctrl_write_reg_mem_wb_i;
 assign write_reg_wb_id_o = write_reg_mem_wb_i;
 
-// always @ (posedge clk_i)
+// always @ (posedge clk)
 // begin
 //     ctrl_branch_wb_if_q <= ctrl_branch_mem_wb_i;
 // end

@@ -5,9 +5,9 @@
 
 
 module counter(
-    clk_i,
+    clk,
     en_i,
-    rst_i,
+    rst,
     count_o,
     trig_o
     );
@@ -16,9 +16,9 @@ module counter(
 parameter WIDTH = 4;
 parameter MAX = 9;
 
-input logic clk_i;
+input logic clk;
 input logic en_i;
-input logic rst_i;
+input logic rst;
 
 output logic [WIDTH - 1:0] count_o;
 output logic trig_o;
@@ -29,8 +29,8 @@ logic trig_q;
 assign count_o = count_q;
 assign trig_o = trig_q;
 
-always@(posedge clk_i) begin
-    if (rst_i)
+always@(posedge clk) begin
+    if (rst)
         count_q <= 'b0;
     else if (en_i) begin
         if (count_q < MAX)
@@ -40,9 +40,9 @@ always@(posedge clk_i) begin
     end
 end
 
-always@(posedge clk_i) begin
+always@(posedge clk) begin
 
-    if (rst_i)
+    if (rst)
         trig_q <= 1'b0;
     else if (en_i && count_q == MAX)
         trig_q <= 1'b1;

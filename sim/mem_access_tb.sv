@@ -14,7 +14,7 @@ module mem_access_tb();
 
 mem_access mem_access_inst
 (
-    .clk_i(clk),
+    .clk(clk),
     .ctrl_mem_read_exe_mem_i(mem_read_exe_mem),
     .ctrl_mem_write_exe_mem_i(mem_write_exe_mem),
     .ctrl_mem_to_reg_exe_mem_i(mem_to_reg_exe_mem),

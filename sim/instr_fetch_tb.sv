@@ -31,8 +31,8 @@ end
 
 // Instruction Fetch instanciation
 instr_fetch u_instr_fetch(
-    .clk_i(clk),
-    .rst_i(rst),
+    .clk(clk),
+    .rst(rst),
     .branch_mem_if_i(branch_mem_if),
     .PC_branch_mem_if_i(PC_branch_mem_if),
     // .instr_if_id(instr_if_id),

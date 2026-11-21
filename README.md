@@ -28,15 +28,13 @@ Simple RV32 core targetted for the Xilinx Basys3 FPGA. The aim is to have a ligh
 ./scripts/compile.sh
 ```
 
-The default firmware test is `vga_test`. Select another test by passing its
-name without the `.c` extension:
+The default firmware test is `vga_test`. Select another test by passing its name without the `.c` extension:
 
 ```sh
 ./scripts/compile.sh <test-name>
 ```
 
-Tests are stored in `fw/test/`, while reusable firmware functions are stored
-in `fw/src/`.
+Tests are stored in `fw/test/`, while reusable firmware functions are stored in `fw/src/`.
 
 ### FPGA
 
@@ -47,7 +45,5 @@ in `fw/src/`.
 
 
 ## Notes
-
-Pipeline registers are typically at the end of stages. Might tweak this to put them in cpu, would be more elegant having the stage modules as combinational only. 
 
 VGA Timings are taken from this website: [VGA Signal Timings](http://www.tinyvga.com/vga-timing)

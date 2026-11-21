@@ -28,7 +28,7 @@ begin
 end
 
 reg_file reg_file_inst(
-  .clk_i(clk),
+  .clk(clk),
   .read_reg1_i(read_reg1),
   .read_reg2_i(read_reg2),
   .write_reg_i(write_reg),
